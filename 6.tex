@@ -10,6 +10,7 @@
 \textbf{Chapter 6 solutions  \hfill Hanna Gábor}\\
 
 \begin{enumerate}
+
 \item
 \begin{align*}
 G_t - V_t(S_t) & = R_{t + 1} + \gamma G_{t + 1} - V_t(S_t) + \gamma V_t(S_{t + 1}) -
@@ -19,5 +20,19 @@ G_t - V_t(S_t) & = R_{t + 1} + \gamma G_{t + 1} - V_t(S_t) + \gamma V_t(S_{t + 1
 & = \delta_t + \gamma \alpha \delta_{t + 1} + \gamma \delta_{t + 1} + \gamma^2 \alpha \delta_{t + 2} + \gamma^2(G_{t + 2} - V_{t + 2}(S_{t + 2})) = \dots\\
 & = \sum\limits_{k = t}^{T - 1} \gamma^{k-t}( 1 + \alpha) \delta_{k}
 \end{align*}
+
+\item
+If I get lost a few times at the beginning, then I can see why TD updates can be better.
+When I get lost, only the first few states learn that it takes a long time for me to go home. After I reached the highway, the predictions won't change
+just because I don't know the way from the new office building to the highway.
+
+\item
+The first episode must have terminated on the left with a reward of $-1$.
+
+The other state values didn't change because the error in those cases was\\
+$R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t) = 0 + 1 \cdot 0.5 - 0.5 = 0$.
+
+$v(A)$ changed by $\alpha (R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t)) = 0.1 * (-1 + 0 - 0.5) = -0.15$.
+
 \end{enumerate}
 \end{document}
