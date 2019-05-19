@@ -4,7 +4,7 @@
 \usepackage{amssymb, amsmath, amsthm}
 \usepackage{graphics, graphicx}
 \pagestyle{empty}
-
+\newtheorem{claim}{Claim}
 
 \begin{document}
 \textbf{Chapter 6 solutions  \hfill Hanna Gábor}\\
@@ -34,5 +34,46 @@ $R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t) = 0 + 1 \cdot 0.5 - 0.5 = 0$.
 
 $v(A)$ changed by $\alpha (R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t)) = 0.1 * (-1 + 0 - 0.5) = -0.15$.
 
+\item
+
+\item
+For now, let us treat the terminal points as states with values $0$ and $1$ respectively
+and all the rewards to be $0$. This doesn't change the updates, but makes the
+notation a bit easier.
+
+\begin{claim}
+  If all the state values are initialized to $0.5$, then
+  \[0 \le V(A) \le V(B) \le V(C) \le V(D) \le V(E) \le 1\] holds throughout the
+  run of the TD algorithm.
+\end{claim}
+\begin{proof}
+  The proof goes by induction on the number of steps. The statement clearly holds
+  in the beginning. Suppose you are in state $S$ and take a step
+  to the right, arriving to $S'$. The updated $V(S)$ then equals to
+  \[(1 - \alpha) V(S) + \alpha V(S') \le (1 - \alpha) V(S') + \alpha V(S') = V(S').\]
+\end{proof}
+
+Now let $S$ be any state in $\{A, B, D, E\}$. Let $S_i$ and $S_o$ denote $S$'s neighbor
+closer to $C$ and further from $C$, respectively.
+
+\begin{claim}
+  Suppose we are in state $S$ in time step $t$ and the previous state was $S_i$. Then
+  $|\mathbb{E}(V_{t + 1}(S_t)) - V_{t}(S_o)| < |V_t(S_t) - V_{t}(S_o)|$ if and only if
+  \[
+  (1 - \alpha) |V_t(S_t) - V_{t - 1} (S_i)| < |V_t(S_o)) - V_t(S_t)|
+  \]
+\end{claim}
+\begin{proof}
+  Using the update rule $ V_t(S_i) = (1 - \alpha) V_{t - 1}(S_i) + \alpha V_{t - 1}(S_t)$
+  and $V_{t - 1}(S_t) = V_t(S_t)$ the following holds.
+  \begin{align*}
+  \mathbb{E}(V_{t + 1}(S_t)) &
+  = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S_i) - V_t(S_t)\big) + \big(V_t(S_o)) - V_t(S_t)\big)\Big)\\
+  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big((1 - \alpha) V_{t - 1}(S_i) +
+  \alpha V_{t - 1}(S_t) - V_t(S_t)\big) + \big(V_t(S_o)) - V_t(S_t)\big)\Big)\\
+  & = V_t(S_t) + \frac{\alpha}{2} \Big(((1 - \alpha) \big(V_{t - 1}(S_i) - V_t(S_t)\big)
+  + \big(V_t(S_o)) - V_t(S_t)\big)\Big)
+  \end{align*}
+\end{proof}
 \end{enumerate}
 \end{document}
