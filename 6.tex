@@ -53,11 +53,12 @@ notation a bit easier.
   \[(1 - \alpha) V(S) + \alpha V(S') \le (1 - \alpha) V(S') + \alpha V(S') = V(S').\]
 \end{proof}
 
-Now let $S$ be any state in $\{A, B, D, E\}$. Let $S_i$ and $S_o$ denote $S$'s neighbor
-closer to $C$ and further from $C$, respectively.
+For the following claims for a state $S \neq C$ let $S_i$ and $S_o$ denote $S$'s
+neighbor closer to $C$ and further from $C$, respectively.
 
 \begin{claim}
-  Suppose we are in state $S$ in time step $t$ and the previous state was $S_i$. Then
+  Let $S$ be any state in $\{A, B, D, E\}$. Suppose we are in state $S$ in
+  time step $t$ and the previous state was $S_i$. Then
   $|\mathbb{E}(V_{t + 1}(S_t)) - V_{t}(S_o)| < |V_t(S_t) - V_{t}(S_o)|$ if and only if
   \[
   (1 - \alpha) |V_t(S_t) - V_{t - 1} (S_i)| < |V_t(S_o)) - V_t(S_t)|
@@ -67,13 +68,57 @@ closer to $C$ and further from $C$, respectively.
   Using the update rule $ V_t(S_i) = (1 - \alpha) V_{t - 1}(S_i) + \alpha V_{t - 1}(S_t)$
   and $V_{t - 1}(S_t) = V_t(S_t)$ the following holds.
   \begin{align*}
-  \mathbb{E}(V_{t + 1}(S_t)) &
-  = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S_i) - V_t(S_t)\big) + \big(V_t(S_o)) - V_t(S_t)\big)\Big)\\
+  \mathbb{E}(V_{t + 1}(S_t))
+  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S_i) - V_t(S_t)\big) + \big(V_t(S_o) - V_t(S_t)\big)\Big)\\
   & = V_t(S_t) + \frac{\alpha}{2} \Big(\big((1 - \alpha) V_{t - 1}(S_i) +
-  \alpha V_{t - 1}(S_t) - V_t(S_t)\big) + \big(V_t(S_o)) - V_t(S_t)\big)\Big)\\
+  \alpha V_{t - 1}(S_t) - V_t(S_t)\big) + \big(V_t(S_o) - V_t(S_t)\big)\Big)\\
   & = V_t(S_t) + \frac{\alpha}{2} \Big(((1 - \alpha) \big(V_{t - 1}(S_i) - V_t(S_t)\big)
   + \big(V_t(S_o)) - V_t(S_t)\big)\Big)
   \end{align*}
 \end{proof}
+
+Note that if $S_t \in \{A, E\}$, then $S_{t - 1} = S_i$.
+
+\begin{claim}
+  Let $S$ be a state in $\{B, D\}$. Suppose we are in state $S$ in
+  time step $t$ and the previous state was $S_o$. Then
+  $|\mathbb{E}(V_{t + 1}(S_t)) - V_{t - 2}(S_o)| < |V_{t - 2}(S_t) - V_{t - 2}(S_o)|$
+  if and only if
+  \[
+  \]
+\end{claim}
+\begin{proof}
+  First note that $S_{t - 2} = S_t$ and $S_{t - 1} = S_o$. We will use the update rules
+  $V_t(S_o) = (1 - \alpha) V_{t - 1}(S_o) + \alpha V_{t - 1}(S_t)$ and
+  $V_{t - 1}(S_t) = (1 - \alpha) V_{t - 2}(S_t) + \alpha V_{t - 2}(S_o)$.
+  \begin{align*}
+  \mathbb{E}(V_{t + 1}(S_t))
+%
+  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S_i) - V_t(S_t)\big) + \big(V_t(S_o) - V_t(S_t)\big)\Big)\\
+%
+  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S_i) - V_t(S_t)\big)
+  + \big((1 - \alpha) V_{t - 1}(S_o) + \alpha V_{t - 1}(S_t) - V_t(S_t)\big)\Big)\\
+%
+  & = V_{t - 1}(S_t) + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S_i) - V_{t - 1}(S_t)\big)
+  + \big((1 - \alpha) (V_{t - 1}(S_o) - V_{t - 1}(S_t))\big)\Big)\\
+%
+  & = (1 - \alpha) V_{t - 2}(S_t) + \alpha V_{t - 2}(S_o) \\
+  & + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S_i)
+  - (1 - \alpha) V_{t - 2}(S_t) - \alpha V_{t - 2}(S_o)\big) \\
+  & + \big((1 - \alpha)(V_{t - 2}(S_o)
+  - (1 - \alpha) V_{t - 2}(S_t) - \alpha V_{t - 2}(S_o))\big)\Big)\\
+%
+  & = (1 - \alpha) V_{t - 2}(S_t) + \alpha V_{t - 2}(S_o) \\
+  & + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S_i) - V_{t - 2}(S_t)\big)
+  + \alpha\big(V_{t - 2}(S_t) - V_{t - 2}(S_o)\big)\\
+  & + \big((1 - \alpha)^2(V_{t - 2}(S_o) - V_{t - 2}(S_t))\big)\Big)\\
+%
+& = V_{t - 2}(S_t) + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S_i) - V_{t - 2}(S_t)\big)
++ \big(((1 - \alpha)^2 - \alpha + 2)(V_{t - 2}(S_o) - V_{t - 2}(S_t))\big)\Big)\\
+%
+  \end{align*}
+\end{proof}
+
+
 \end{enumerate}
 \end{document}
