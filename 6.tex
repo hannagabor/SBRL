@@ -34,5 +34,23 @@ $R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t) = 0 + 1 \cdot 0.5 - 0.5 = 0$.
 
 $v(A)$ changed by $\alpha (R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t)) = 0.1 * (-1 + 0 - 0.5) = -0.15$.
 
+\item
+I don't think a wider range of $\alpha$ values would have an effect on the results.
+
+\begin{itemize}
+\item \textbf{Monte Carlo methods.}
+The Monte Carlo version with $\alpha = 0.4$ starts to oscillate pretty fast and doesn't
+seem to decrease. I expect a Monte Carlo method with a bigger $\alpha$ value to oscillate
+around an error level which is at least as high as the error in the $\alpha = 0.4$
+case. The smallest $\alpha$ for the MC method among the examples is $0.1$. That is
+the only MC method which we can't see to oscillate. This version does not achieve the
+performance of the TD methods. A smaller $\alpha$ value would make the learning progress
+even slower. It's possible that the error with Monte Carlo update with $\alpha =<0.1$
+goes under the TD error eventually, so looking at more episodes might have an effect
+on the results.
+
+\end{itemize}
+
+
 \end{enumerate}
 \end{document}
