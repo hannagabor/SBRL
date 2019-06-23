@@ -11,12 +11,13 @@
 \textbf{Chapter 6 solutions  \hfill Hanna Gábor}\\
 
 \begin{enumerate}
-
 \item
 \begin{align*}
 G_t - V_t(S_t) & = R_{t + 1} + \gamma G_{t + 1} - V_t(S_t) + \gamma V_t(S_{t + 1}) -
-\gamma V_t(S_{t + 1}) + \gamma V_{t + 1}(S_{t + 1}) - \gamma V_{t + 1}(S_{t + 1})\\
-& = (R_{t + 1} + \gamma V_t(S_{t + 1}) - V_t(S_t)) + (\gamma G_{t + 1} - \gamma V_{t + 1}(S_{t + 1})) + (\gamma V_{t + 1}(S_{t + 1}) -\gamma V_t(S_{t + 1}))\\
+\gamma V_t(S_{t + 1}) + \gamma V_{t + 1}(S_{t + 1})\\
+& - \gamma V_{t + 1}(S_{t + 1})\\
+& = (R_{t + 1} + \gamma V_t(S_{t + 1}) - V_t(S_t)) + (\gamma G_{t + 1} - \gamma V_{t + 1}(S_{t + 1}))\\
+& + (\gamma V_{t + 1}(S_{t + 1}) -\gamma V_t(S_{t + 1}))\\
 & = \delta_t + \gamma(G_{t + 1} - V_{t + 1}(S_{t + 1})) + \gamma \alpha \delta_{t + 1}\\
 & = \delta_t + \gamma \alpha \delta_{t + 1} + \gamma \delta_{t + 1} + \gamma^2 \alpha \delta_{t + 2} + \gamma^2(G_{t + 2} - V_{t + 2}(S_{t + 2})) = \dots\\
 & = \sum\limits_{k = t}^{T - 1} \gamma^{k-t}( 1 + \alpha) \delta_{k}
@@ -56,7 +57,7 @@ on the results.
 For now, let us treat the terminal points as states with values $0$ and $1$,
 respectively. Let all the rewards be $0$. These changes together don't change
 the updates, but make the notation a bit easier. For a state $S \neq C$ let
-$S_i$ denote the neighbor of $C$ which is closer to $C$ and $S_o$ denote the
+$S^i$ denote the neighbor of $C$ which is closer to $C$ and $S^o$ denote the
 neighbor of $S$ which is further from $C$. Let $V_t(S)$ denote the estimate of
 $V(S)$ in time step $t$.
 
@@ -65,8 +66,8 @@ the following theorem.
 \begin{thm}\label{thm}
   Let $S$ be any state in $\{A, B, D, E\}$. Suppose we are in state $S$ in
   time step $t$. Suppose also that
-  \[(1 - \alpha) |V_t(S_t) - V_{t - 2} (S_i)| < |V_{t - 2}(S_o)) - V_t(S_t)|.\] Then
-  $|\mathbb{E}(V_{t + 1}(S_t)) - V_{t}(S_o)| < |V_t(S_t) - V_{t}(S_o)|$.
+  \[(1 - \alpha) |V_t(S_t) - V_{t - 2} (S^i)| < |V_{t - 2}(S^o)) - V_t(S_t)|.\] Then
+  $|\mathbb{E}(V_{t + 1}(S_t)) - V_{t}(S^o)| < |V_t(S_t) - V_{t}(S^o)|$.
 \end{thm}
 
 For proving the theorem we need a few lemmas.
@@ -87,76 +88,77 @@ For proving the theorem we need a few lemmas.
 
 \begin{lemma}
   Let $S$ be any state in $\{A, B, D, E\}$. Suppose we are in state $S$ in
-  time step $t$ and the previous state was $S_i$. Then
-  $|\mathbb{E}(V_{t + 1}(S_t)) - V_{t}(S_o)| < |V_t(S_t) - V_{t}(S_o)|$ if and only if
+  time step $t$ and the previous state was $S^i$. Then
+  $|\mathbb{E}(V_{t + 1}(S_t)) - V_{t}(S^o)| < |V_t(S_t) - V_{t}(S^o)|$ if and only if
   \[
-  (1 - \alpha) |V_t(S_t) - V_{t - 1} (S_i)| < |V_t(S_o)) - V_t(S_t)|.
+  (1 - \alpha) |V_t(S_t) - V_{t - 1} (S^i)| < |V_t(S^o)) - V_t(S_t)|.
   \]
 \end{lemma}
 \begin{proof}
-  Using the update rule $ V_t(S_i) = (1 - \alpha) V_{t - 1}(S_i) + \alpha V_{t - 1}(S_t)$
+  Using the update rule $ V_t(S^i) = (1 - \alpha) V_{t - 1}(S^i) + \alpha V_{t - 1}(S_t)$
   and $V_{t - 1}(S_t) = V_t(S_t)$ the following holds.
   \begin{align*}
   \mathbb{E}(V_{t + 1}(S_t))
-  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S_i) - V_t(S_t)\big) + \big(V_t(S_o) - V_t(S_t)\big)\Big)\\
-  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big((1 - \alpha) V_{t - 1}(S_i) +
-  \alpha V_{t - 1}(S_t) - V_t(S_t)\big) + \big(V_t(S_o) - V_t(S_t)\big)\Big)\\
-  & = V_t(S_t) + \frac{\alpha}{2} \Big(((1 - \alpha) \big(V_{t - 1}(S_i) - V_t(S_t)\big)
-  + \big(V_t(S_o)) - V_t(S_t)\big)\Big)
+  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S^i) - V_t(S_t)\big) + \big(V_t(S^o) - V_t(S_t)\big)\Big)\\
+  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big((1 - \alpha) V_{t - 1}(S^i) +
+  \alpha V_{t - 1}(S_t) - V_t(S_t)\big)\\
+  & + \big(V_t(S^o) - V_t(S_t)\big)\Big)\\
+  & = V_t(S_t) + \frac{\alpha}{2} \Big(((1 - \alpha) \big(V_{t - 1}(S^i) - V_t(S_t)\big)\\
+  & + \big(V_t(S^o)) - V_t(S_t)\big)\Big)
   \end{align*}
   Hence
-  \[|\mathbb{E}(V_{t + 1}(S_t)) - V_{t}(S_o)| < |V_t(S_t) - V_{t}(S_o)|\]
+  \[|\mathbb{E}(V_{t + 1}(S_t)) - V_{t}(S^o)| < |V_t(S_t) - V_{t}(S^o)|\]
   holds if and only if
-  \[|(1 - \alpha) \big(V_{t - 1}(S_i) - V_{t}(S_t)\big)| < |V_t(S_o)) - V_t(S_t)|.\]
+  \[|(1 - \alpha) \big(V_{t - 1}(S^i) - V_{t}(S_t)\big)| < |V_t(S^o)) - V_t(S_t)|.\]
 \end{proof}
 
-Note that if $S_t \in \{A, E\}$, then $S_{t - 1} = S_i$.
+Note that if $S_t \in \{A, E\}$, then $S_{t - 1} = S^i$.
 
 \begin{lemma}
   Let $S$ be a state in $\{B, D\}$. Suppose we are in state $S$ in
-  time step $t$ and the previous state was $S_o$. Then
-  $|\mathbb{E}(V_{t + 1}(S_t)) - V_{t - 2}(S_o)| < |V_{t - 2}(S_t) - V_{t - 2}(S_o)|$
+  time step $t$ and the previous state was $S^o$. Then
+  $|\mathbb{E}(V_{t + 1}(S_t)) - V_{t - 2}(S^o)| < |V_{t - 2}(S_t) - V_{t - 2}(S^o)|$
   if and only if
   \[
-  |V_{t - 2}(S_t) - V_{t - 2}(S_i)| <
-  |((1 - \alpha)^2 - \alpha + 2)(V_{t - 2}(S_o) - V_{t - 2}(S_t))|
+  |V_{t - 2}(S_t) - V_{t - 2}(S^i)| <
+  ((1 - \alpha)^2 - \alpha + 2)|(V_{t - 2}(S^o) - V_{t - 2}(S_t))|
   \]
 \end{lemma}
 \begin{proof}
-  First note that $S_{t - 2} = S_t$ and $S_{t - 1} = S_o$. We will use the update rules
-  $V_t(S_o) = (1 - \alpha) V_{t - 1}(S_o) + \alpha V_{t - 1}(S_t)$ and
-  $V_{t - 1}(S_t) = (1 - \alpha) V_{t - 2}(S_t) + \alpha V_{t - 2}(S_o)$.
+  First note that $S_{t - 2} = S_t$ and $S_{t - 1} = S^o$. We will use the update rules
+  $V_t(S^o) = (1 - \alpha) V_{t - 1}(S^o) + \alpha V_{t - 1}(S_t)$ and
+  $V_{t - 1}(S_t) = (1 - \alpha) V_{t - 2}(S_t) + \alpha V_{t - 2}(S^o)$.
   \begin{align*}
   \mathbb{E}(V_{t + 1}(S_t))
 %
-  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S_i) - V_t(S_t)\big) + \big(V_t(S_o) - V_t(S_t)\big)\Big)\\
+  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S^i) - V_t(S_t)\big) + \big(V_t(S^o) - V_t(S_t)\big)\Big)\\
 %
-  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S_i) - V_t(S_t)\big)
-  + \big((1 - \alpha) V_{t - 1}(S_o) + \alpha V_{t - 1}(S_t) - V_t(S_t)\big)\Big)\\
+  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S^i) - V_t(S_t)\big)\\
+  & + \big((1 - \alpha) V_{t - 1}(S^o) + \alpha V_{t - 1}(S_t) - V_t(S_t)\big)\Big)\\
 %
-  & = V_{t - 1}(S_t) + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S_i) - V_{t - 1}(S_t)\big)
-  + \big((1 - \alpha) (V_{t - 1}(S_o) - V_{t - 1}(S_t))\big)\Big)\\
+  & = V_{t - 1}(S_t) + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S^i) - V_{t - 1}(S_t)\big)\\
+  & + \big((1 - \alpha) (V_{t - 1}(S^o) - V_{t - 1}(S_t))\big)\Big)\\
 %
-  & = (1 - \alpha) V_{t - 2}(S_t) + \alpha V_{t - 2}(S_o) \\
-  & + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S_i)
-  - (1 - \alpha) V_{t - 2}(S_t) - \alpha V_{t - 2}(S_o)\big) \\
-  & + \big((1 - \alpha)(V_{t - 2}(S_o)
-  - (1 - \alpha) V_{t - 2}(S_t) - \alpha V_{t - 2}(S_o))\big)\Big)\\
+  & = (1 - \alpha) V_{t - 2}(S_t) + \alpha V_{t - 2}(S^o) \\
+  & + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S^i)
+  - (1 - \alpha) V_{t - 2}(S_t) - \alpha V_{t - 2}(S^o)\big) \\
+  & + \big((1 - \alpha)(V_{t - 2}(S^o)
+  - (1 - \alpha) V_{t - 2}(S_t) - \alpha V_{t - 2}(S^o))\big)\Big)\\
 %
-  & = (1 - \alpha) V_{t - 2}(S_t) + \alpha V_{t - 2}(S_o) \\
-  & + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S_i) - V_{t - 2}(S_t)\big)
-  + \alpha\big(V_{t - 2}(S_t) - V_{t - 2}(S_o)\big)\\
-  & + \big((1 - \alpha)^2(V_{t - 2}(S_o) - V_{t - 2}(S_t))\big)\Big)\\
+  & = (1 - \alpha) V_{t - 2}(S_t) + \alpha V_{t - 2}(S^o) \\
+  & + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S^i) - V_{t - 2}(S_t)\big)
+  + \alpha\big(V_{t - 2}(S_t) - V_{t - 2}(S^o)\big)\\
+  & + \big((1 - \alpha)^2(V_{t - 2}(S^o) - V_{t - 2}(S_t))\big)\Big)\\
 %
-& = V_{t - 2}(S_t) + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S_i) - V_{t - 2}(S_t)\big)
-+ \big(((1 - \alpha)^2 - \alpha + 2)(V_{t - 2}(S_o) - V_{t - 2}(S_t))\big)\Big)\\
+& = V_{t - 2}(S_t) + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S^i) - V_{t - 2}(S_t)\big)\\
+& + \big(((1 - \alpha)^2 - \alpha + 2)(V_{t - 2}(S^o) - V_{t - 2}(S_t))\big)\Big)\\
 %
   \end{align*}
   Hence
-  \[|\mathbb{E}(V_{t + 1}(S_t)) - V_{t - 2}(S_o)| < |V_{t - 2}(S_t) - V_{t - 2}(S_o)|\]
+  \[|\mathbb{E}(V_{t + 1}(S_t)) - V_{t - 2}(S^o)| < |V_{t - 2}(S_t) - V_{t - 2}(S^o)|\]
   holds if and only if
-  \[|V_{t - 2}(S_i) - V_{t - 2}(S_t)|
-  + ((1 - \alpha)^2 - \alpha + 2)|(V_{t - 2}(S_o) - V_{t - 2}(S_t))| > 0
+  \[|V_{t - 2}(S^i) - V_{t - 2}(S_t)|
+  < ((1 - \alpha)^2 - \alpha + 2)|(V_{t - 2}(S^o) - V_{t - 2}(S_t))|
   \]
 \end{proof}
 
