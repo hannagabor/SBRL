@@ -33,7 +33,14 @@
     If the other player follows a deterministic strategy, then a greedy method would be better. If the other player does not play deterministically, then this is not the case. Suppose that from a state $S_0$ the agent has two actions that lead to states $S_1$ and $S_2$. It can happen that at the beginning the learning agent loses from state $S_1$ because of bad luck, so it assigns a lower value for $S_1$ than the true chance of winning. If $S_2$ has a higher value than this assigned value, then the agent will probably always choose $S_2$. In this case, if the agent has a lower chance of winning from $S_2$ than from $S_1$, the agent probably will not figure it out.
 
   \item
-    \textit{Learning from Exploration. Suppose learning updates occurred after all moves, including exploratory moves. If the step-size parameter is appropriately reduced over time (but not the tendency to explore), then the state values would converge to a different set of probabilities. What (conceptually) are the two sets of probabilities computed when we do, and when we do not, learn from exploratory moves? Assuming that we do continue to make exploratory moves, which set of probabilities might be better to learn? Which would result in more wins?}
+    \textit{Learning from Exploration. Suppose learning updates occurred after all moves, including exploratory moves. If the step-size parameter is appropriately reduced over time (but not the tendency to explore), then the state values would converge to a different set of probabilities. What (conceptually) are the two sets of probabilities computed when we do, and when we do not, learn from exploratory moves?}
+
+    If we learn from exploratory moves, then we learn the probabilities of winning in case we follow the strategy that occasionally make exploratory moves. If we do not learn from exploratory moves, then we learn the probability of winning in case of the greedy strategy.
+
+    \textit{Assuming that we do continue to make exploratory moves, which set of probabilities might be better to learn? Which would result in more wins?}
+
+    If we continue to make exploratory moves, then we should learn from exploratory moves as well. Let's see an example. Suppose the agent can choose from two states with similar winning probabilities if the agent plays greedy. In the first state, the agent needs to do exactly the right moves after being in that state to get that chance of winning. In the second state, the agent can do whatever it wants, the winning probability will not change. It might happen that if the agent continues to make exploratory moves, it has a lower chance of winning from the first state than from the second state, but if it plays greedily, then it has a better chance if it chooses an action that leads to the first state.
+
 
 
 \end{enumerate}
