@@ -30,6 +30,14 @@
 
       No. If the opponent makes different choices in two symmetrically equivalent states, then we might have a dfferent winning chance in those, so we should not think of them as the same state.
 
+  \item
+    \textit{
+      Greedy Play. Suppose the reinforcement learning player was greedy, that is, it always played the move that brought it to the position that it rated the best. Might it  learn to play better, or worse, than a nongreedy player? What problems might occur?}
+
+    If the other player follows a deterministic strategy, then a greedy method would be better. If the other player does not play deterministically, then this is not the case. Suppose that from a state $S_0$ the agent has two actions that lead to states $S_1$ and $S_2$. It can happen that at the beginning the learning agent loses from state $S_1$ because of bad luck, so it assigns a lower value for $S_1$ than the true chance of winning. If $S_2$ has a higher value than this assigned value, then the agent will probably always choose $S_2$. In this case, if the agent has a lower chance of winning from $S_2$ than from $S_1$, the agent probably will not figure it out.
+
+
+
 
 \end{enumerate}
 \end{document}
