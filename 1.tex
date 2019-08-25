@@ -41,6 +41,12 @@
 
     If we continue to make exploratory moves, then we should learn from exploratory moves as well. Let's see an example. Suppose the agent can choose from two states with similar winning probabilities if the agent plays greedy. In the first state, the agent needs to do exactly the right moves after being in that state to get that chance of winning. In the second state, the agent can do whatever it wants, the winning probability will not change. It might happen that if the agent continues to make exploratory moves, it has a lower chance of winning from the first state than from the second state, but if it plays greedily, then it has a better chance if it chooses an action that leads to the first state.
 
+  \item
+    \textit{Other Improvements. Can you think of other ways to improve the reinforcement learning player? Can you think of any better way to solve the tic-tac-toe problem as posed?}
+
+    If the opponent is deterministic, then we can go through all the states (starting from the leaves) and determine the best action from there.
+
+    We could also use the result of a game to get better estimates not only for the last state, but for previous states as well. I am not sure if that would help overall, but it would help to get better estimates than $0.5$ sooner. 
 
 
 \end{enumerate}
