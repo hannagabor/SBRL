@@ -20,7 +20,7 @@
     \textit{Bandit example. Consider a $k$-armed bandit problem with $k = 4$ actions, denoted $1$, $2$, $3$, and $4$. Consider applying to this problem a bandit algorithm using $\epsilon$-greedy action selection, sample-average action-value estimates, and initial estimates of $Q_1(a) = 0$, for all $a$. Suppose the initial sequence of actions and rewards is $A_1 = 1$, $R_1 = 1$, $A_2 = 2$, $R_2 = 1$, $A_3 = 2$, $R_3 = 2$, $A_4 = 2$,
     $R_4 = 2$, $A_5 = 3$, $R_5 = 0$. On some of these time steps the $\epsilon$ case may have occurred, causing an action to be selected at random. On which time steps did this definitely occur? On which time steps could this possibly have occurred?}
 
-    Any action can be an explorative move.
+    Any action can be an exploratory move.
 
     What were the greedy options in different time steps?\\
     Step $1$: all actions have $0$ estimated values. Every action is a greedy choice.\\
@@ -30,6 +30,20 @@
     Step $5$: $Q_4(2) = 1.67$. The greedy choice is $2$. $A_5 = 3$ must have been an explorative move.
 
     On time steps $2$ and $5$ a random action must have been selected.
+
+ \item
+    \textit{In the comparison shown in Figure 2.2, which method will perform best in
+    the long run in terms of cumulative reward and probability of selecting the best action?
+    How much better will it be? Express your answer quantitatively.}
+
+    On the long run, the $\epsilon = 0.01$ method will perform the best in both sense.
+    The non-greedy methods will eventually find the best action, but only choose it
+    with probability $1 - \epsilon + 0.01 \epsilon $. In the $\epsilon = 0.01$ case this means the method
+    chooses the best action with probability $0.991$, while in the $\epsilon = 0.1$ case,
+    this probability is $0.91$.
+
+
+
 
 \end{enumerate}
 \end{document}
