@@ -42,7 +42,18 @@
     chooses the best action with probability $0.991$, while in the $\epsilon = 0.1$ case,
     this probability is $0.91$.
 
+\item
+  \textit{If the step-size parameters, $\alpha_n$, are not constant, then the estimate $Q_n$ is
+  a weighted average of previously received rewards with a weighting different from that
+  given by (2.6). What is the weighting on each prior reward for the general case, analogous
+  to (2.6), in terms of the sequence of step-size parameters?}
 
+  \begin{align*}
+  Q_{n + 1} = & Q_n + \alpha(R_n - Q_n) = \alpha_n R_n + (1 - \alpha_n)Q_n \\
+  = & \alpha_n R_n + (1 - \alpha_n)(Q_{n - 1} + \alpha_{n - 1}(R_{n - 1} - Q_{n - 1})) = \dots \\
+  = & \Big(\prod\limits_{j = 1}^n (1 - \alpha_j)\Big) Q_1 +
+  \sum\limits_{i = 1}^n \Big(\prod\limits_{j = i + 1}^n (1 - \alpha_j) \Big)\alpha_i R_i \\
+  \end{align*}
 
 
 \end{enumerate}
