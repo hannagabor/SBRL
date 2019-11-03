@@ -1,11 +1,13 @@
 use rand::distributions::{Distribution, Normal, Uniform};
-use gnuplot::{Figure, Caption, Color};
+use gnuplot::{Figure, Caption};
 use std::collections::HashMap;
+use gnuplot::AxesCommon;
+
 
 const NUM_ARMS: usize = 10;
 const EPSILON: f64 = 0.1;
-const STEPS: usize = 10000;
-const RUNS: usize = 2000;
+const STEPS: usize = 2000;
+const RUNS: usize = 10;
 
 struct Arm {
     mean: f64,
@@ -14,6 +16,7 @@ struct Arm {
 }
 
 impl Arm {
+    // Arms give reward according to a normal distribution. The mean of this distribution can change.
     fn new() -> Arm {
         Arm {
             mean: 0.,
@@ -34,7 +37,7 @@ impl Arm {
 
 trait Player {
     fn choose(&self) -> usize;
-    fn update_inner_state(&mut self, chosen_arm: usize, reward: f64, optimal:bool) {}
+    fn update_inner_state(&mut self, chosen_arm: usize, reward: f64, optimal:bool);
 }
 
 fn max_index(v: &Vec<f64>) -> usize {
@@ -58,8 +61,7 @@ struct ConstantPlayer {
     num_optimal_choices: f64, //we want to divide it and get a float
     optimal_choice_ratio: Vec<f64>,
     step: usize,
-    name: &'static str,
-    color: &'static str
+    name: &'static str
 }
 
 impl ConstantPlayer {
@@ -74,7 +76,6 @@ impl ConstantPlayer {
             optimal_choice_ratio: vec![0.; STEPS],
             step: 0,
             name: "constant",
-            color: "black"
         }
     }
 }
@@ -110,7 +111,7 @@ impl Player for ConstantPlayer {
 // }
 
 fn main() {
-    let mut all_results =HashMap::new();
+    let mut all_reward_results =HashMap::new();
     for _ in 0..RUNS {
         let mut arms: Vec<Arm> = vec![];
         // let average_player =  AveragePlayer::new();
@@ -122,19 +123,22 @@ fn main() {
             arms.push(arm);
         }
         for player in &mut players {
-            all_results.entry(player.name).or_insert(vec![0.0; STEPS]);
+            all_reward_results.entry(player.name).or_insert(vec![0.0; STEPS]);
             for step in 0..STEPS {
                 let mut max_mean = std::f64::NEG_INFINITY;
                 for a in &mut arms {
                     a.change_mean();
-                    max_mean = max_mean.max(a.mean);
+                    max_mean = max_mean.max(a.mean); //max_mean contains the mean reward of the optimal arm
                 }
                 let chosen_arm_index = player.choose();
                 let chosen_arm = &arms[chosen_arm_index];
                 let reward = chosen_arm.get_reward();
                 let optimal = chosen_arm.mean == max_mean;
                 player.update_inner_state(chosen_arm_index, reward, optimal);
-                all_results[player.name][step] += player.average_rewards.last().unwrap_or("")
+                // TODO: Remove unwraps.
+                // println!("{:?}", player.average_rewards);
+                // println!("aaaaaaaa{:?}", all_reward_results);
+                all_reward_results.get_mut(player.name).unwrap()[step] += player.average_rewards[step]
             }
         }
     }
@@ -145,12 +149,16 @@ fn main() {
         x.push(i);
     }
     // println!("{:?}", player.average_rewards);
-    for (player_name, results) in all_results {
+    for (player_name, mut results) in all_reward_results {
         for res in &mut results{
-            res = *res / RUNS;
+            *res = *res / (RUNS as f64);
         }
+        // println!("{:?}", results);
         fg.axes2d()
-        .lines(&x, &results, &[Caption("average reward")]);
+        .lines(&x, &results, &[Caption(player_name)])
+        .set_title("Average rewards", &[])
+        .set_x_label("steps", &[])
+        .set_y_label("average reward", &[]);
         fg.save_to_png("average.png", 1000, 1000).unwrap();
     }
     // match fg.save_to_png("average.png", 100, 100) {
