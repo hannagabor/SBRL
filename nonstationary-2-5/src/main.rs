@@ -2,12 +2,13 @@ use rand::distributions::{Distribution, Normal, Uniform};
 use gnuplot::{Figure, Caption};
 use std::collections::HashMap;
 use gnuplot::AxesCommon;
-
+use std::f64::NEG_INFINITY;
 
 const NUM_ARMS: usize = 10;
 const EPSILON: f64 = 0.1;
 const STEPS: usize = 2000;
 const RUNS: usize = 10;
+
 
 struct Arm {
     mean: f64,
@@ -36,12 +37,15 @@ impl Arm {
 }
 
 trait Player {
+    // Players can choose an arm based on their inner state.
+    // Estimations are updated based on the rule Q_{n + 1} = Q_n + \alpha(R_n - Q_n).
     fn choose(&self) -> usize;
     fn update_inner_state(&mut self, chosen_arm: usize, reward: f64, optimal:bool);
 }
 
 fn max_index(v: &Vec<f64>) -> usize {
-    let mut max_value = 0.;
+    // Used for choosing the best arm based on a vector of reward estimations.
+    let mut max_value = NEG_INFINITY ;
     let mut max_index: usize = 0;
     for (i, &e) in v.iter().enumerate() {
         if max_value < e {
@@ -53,13 +57,15 @@ fn max_index(v: &Vec<f64>) -> usize {
 }
 
 struct ConstantPlayer {
-    estimations: Vec<f64>,
-    alpha: f64,
-    greedy_distribution: Uniform<f64>,
-    sum_rewards: f64,
-    average_rewards: Vec<f64>,
-    num_optimal_choices: f64, //we want to divide it and get a float
-    optimal_choice_ratio: Vec<f64>,
+    estimations: Vec<f64>, // Contains estimations of the mean rewards for diffrent arms.
+    alpha: f64, // step size
+    greedy_distribution: Uniform<f64>, // Used to determine if the player chooses the greedy or
+    // a random action.
+    sum_rewards: f64, // Sum of the already collected rewards.
+    average_rewards: Vec<f64>, // Average reward/step until now for each time step.
+    num_optimal_choices: f64, // Number of times when the optimal arm was choosen. It is a float,
+    // because we want to divide it by step and get a float.
+    optimal_choice_ratio: Vec<f64>, // Average num_optimal_choices/step until now for each time step.
     step: usize,
     name: &'static str
 }
@@ -125,7 +131,7 @@ fn main() {
         for player in &mut players {
             all_reward_results.entry(player.name).or_insert(vec![0.0; STEPS]);
             for step in 0..STEPS {
-                let mut max_mean = std::f64::NEG_INFINITY;
+                let mut max_mean = NEG_INFINITY;
                 for a in &mut arms {
                     a.change_mean();
                     max_mean = max_mean.max(a.mean); //max_mean contains the mean reward of the optimal arm
