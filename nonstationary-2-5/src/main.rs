@@ -154,21 +154,16 @@ fn main() {
     for i in 0..STEPS {
         x.push(i);
     }
-    // TODO: Fix plots.
+    let mut ax = fg.axes2d();
     for (player_name, mut results) in all_reward_results {
         for res in &mut results{
             *res = *res / (RUNS as f64);
         }
-        fg.axes2d()
-        .lines(&x, &results, &[Caption(player_name), colors[player_name]])
-        .set_title("Average rewards", &[])
-        .set_x_label("steps", &[])
-        .set_y_label("average reward", &[]);
+        ax = ax.lines(&x, &results, &[Caption(player_name), colors[player_name]])
+        ;
+    ax.set_title("Average rewards", &[])
+    .set_x_label("steps", &[])
+    .set_y_label("average reward", &[]);
     }
     fg.save_to_png("average.png", 1000, 1000).unwrap();
-    // match fg.save_to_png("average.png", 100, 100) {
-    //     Ok(_) => {},
-    //     Err(e) => println!("Error: {}", e)
-    // }
-
 }
