@@ -7,7 +7,7 @@ use std::f64::NEG_INFINITY;
 const NUM_ARMS: usize = 10;
 const EPSILON: f64 = 0.1;
 const STEPS: usize = 10000;
-const RUNS: usize = 10;
+const RUNS: usize = 2000;
 
 
 struct Arm {
