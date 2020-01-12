@@ -6,7 +6,7 @@ use std::f64::NEG_INFINITY;
 
 const NUM_ARMS: usize = 10;
 const EPSILON: f64 = 0.1;
-const STEPS: usize = 2000;
+const STEPS: usize = 10000;
 const RUNS: usize = 10;
 
 
@@ -46,7 +46,7 @@ struct Player {
     average_rewards: Vec<f64>, // Average reward/step until now for each time step.
     num_optimal_choices: f64, // Number of times when the optimal arm was choosen. It is a float,
     // because we want to divide it by step and get a float.
-    optimal_choice_ratio: Vec<f64>, // Average num_optimal_choices/step until now for each time step.
+    optimal_choice_ratio: Vec<f64>, // num_optimal_choices/step until now for each time step.
     step: usize,
     name: &'static str
 }
@@ -113,6 +113,7 @@ impl Player {
 
 fn main() {
     let mut all_reward_results = HashMap::new();
+    let mut all_optimal_actions = HashMap::new();
     // TODO: plot optimal ratio.
     for _ in 0..RUNS {
         let mut arms: Vec<Arm> = vec![];
@@ -125,8 +126,12 @@ fn main() {
         }
         for player in &mut players {
             all_reward_results.entry(player.name).or_insert(vec![0.0; STEPS]); // The ith entry
-            // contains the the sum of average rewards. The sum is over different runs. The average is
+            // contains the sum of average rewards. The sum is over different runs. The average is
             // over the steps until i.
+            all_optimal_actions.entry(player.name).or_insert(vec![0.0; STEPS]); // The ith entry
+            // contains the ratio of optimal choices. The sum is over different runs. The ratio is
+            // over the steps until i.
+
             for step in 0..STEPS {
                 let mut max_mean = NEG_INFINITY;
                 for a in &mut arms {
@@ -139,7 +144,8 @@ fn main() {
                 let optimal = chosen_arm.mean == max_mean;
                 player.update_inner_state(chosen_arm_index, reward, optimal);
                 // TODO: Remove unwraps.
-                all_reward_results.get_mut(player.name).unwrap()[step] += player.average_rewards[step]
+                all_reward_results.get_mut(player.name).unwrap()[step] += player.average_rewards[step];
+                all_optimal_actions.get_mut(player.name).unwrap()[step] += player.optimal_choice_ratio[step];
             }
         }
     }
@@ -159,11 +165,23 @@ fn main() {
         for res in &mut results{
             *res = *res / (RUNS as f64);
         }
-        ax = ax.lines(&x, &results, &[Caption(player_name), colors[player_name]])
-        ;
+        ax = ax.lines(&x, &results, &[Caption(player_name), colors[player_name]]);
     ax.set_title("Average rewards", &[])
     .set_x_label("steps", &[])
     .set_y_label("average reward", &[]);
     }
     fg.save_to_png("average.png", 1000, 1000).unwrap();
+
+    let mut fg = Figure::new();
+    let mut ax = fg.axes2d();
+    for (player_name, mut results) in all_optimal_actions {
+        for res in &mut results{
+            *res = *res / (RUNS as f64);
+        }
+        ax = ax.lines(&x, &results, &[Caption(player_name), colors[player_name]]);
+    ax.set_title("Ratio of optimal actions", &[])
+    .set_x_label("steps", &[])
+    .set_y_label("optimal actions", &[]);
+    }
+    fg.save_to_png("optimal.png", 1000, 1000).unwrap();
 }
