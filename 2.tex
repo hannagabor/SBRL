@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb, amsmath, amsthm}
 \usepackage{graphics, graphicx}
+\graphicspath{ {./2.5/} }
 \pagestyle{empty}
 \newtheorem{lemma}{Lemma}
 \newtheorem{thm}{Theorem}
@@ -55,6 +56,19 @@
   \sum\limits_{i = 1}^n \Big(\prod\limits_{j = i + 1}^n (1 - \alpha_j) \Big)\alpha_i R_i \\
   \end{align*}
 
+\item
+  \textit{(programming) Design and conduct an experiment to demonstrate the
+  difficulties that sample-average methods have for nonstationary problems. Use a modified
+  version of the 10-armed testbed in which all the $q_*(a)$ start out equal and then take
+  independent random walks (say by adding a normally distributed increment with mean
+  zero and standard deviation 0.01 to all the $q_*(a)$ on each step). Prepare plots like
+  Figure 2.2 for an action-value method using sample averages, incrementally computed,
+  and another action-value method using a constant step-size parameter, $\alpha = 0.1$. Use
+  $\epsilon = 0.1$ and longer runs, say of 10,000 steps.}
 
+  \centering
+  \includegraphics[scale=0.3]{average}
+
+  \includegraphics[scale=0.3]{optimal}
 \end{enumerate}
 \end{document}
