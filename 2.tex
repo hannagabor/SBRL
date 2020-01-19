@@ -66,9 +66,23 @@
   and another action-value method using a constant step-size parameter, $\alpha = 0.1$. Use
   $\epsilon = 0.1$ and longer runs, say of 10,000 steps.}
 
-  \centering
+  {\centering
   \includegraphics[scale=0.3]{average}
 
   \includegraphics[scale=0.3]{optimal}
+  }
+
+\item
+  \textit{Mysterious Spikes. The results shown in Figure 2.3 should be quite reliable
+  because they are averages over 2000 individual, randomly chosen 10-armed bandit tasks.
+  Why, then, are there oscillations and spikes in the early part of the curve for
+  the optimistic method? In other words, what might make this method
+  perform particularly better or worse, on average, on particular early steps?}
+
+  With very high probability, the first $10$ choices will cover all the possible actions
+  once. After the $10^th$ action, we have a an estimation of the action values based
+  on the 
+
+
 \end{enumerate}
 \end{document}
