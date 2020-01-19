@@ -66,11 +66,12 @@
   and another action-value method using a constant step-size parameter, $\alpha = 0.1$. Use
   $\epsilon = 0.1$ and longer runs, say of 10,000 steps.}
 
-  {\centering
+  \begin{center}
   \includegraphics[scale=0.3]{average}
-
+  \\
   \includegraphics[scale=0.3]{optimal}
-  }
+\end{center}
+
 
 \item
   \textit{Mysterious Spikes. The results shown in Figure 2.3 should be quite reliable
@@ -90,5 +91,42 @@
   This will cause a spike at step $21$.
   The starting values will have less and less effect, it won't be true that in steps
   $10k - 10(k + 1)$ we will try all the actions once, so these spikes will disappear.
+
+\item
+  \textit{Unbiased Constant-Step-Size Trick. In most of this chapter we have used
+  sample averages to estimate action values because sample averages do not produce the
+  initial bias that constant step sizes do (see the analysis leading to (2.6)). However, sample
+  averages are not a completely satisfactory solution because they may perform poorly
+  on nonstationary problems. Is it possible to avoid the bias of constant step sizes while
+  retaining their advantages on nonstationary problems? One way is to use a step size of
+  \[\beta_n\doteq \alpha / \bar{o}_n\]
+  to process the $n^{th}$ reward for a particular action, where $\alpha > 0$ is
+  a conventional constant step size, and $\bar{o}_n$ is a trace of one that starts at 0:
+  \[\bar{o}_n \doteq \bar{o}_{n - 1} + \alpha(1 - \bar{o}_{n - 1}) \text{ for } n \ge 0 \text{ with } \bar{o}_0 \doteq 0\]
+  Carry out an analysis like that in (2.6) to show that $Q_n$ is an exponential recency-weighted
+  average without initial bias.
+  }
+  \begin{align*}
+    Q_{n + 1} &= Q_n + \beta_n(R_n - Q_n)\\
+    &= \beta_n R_n + (1 - \beta_n)Q_n\\
+    &= \beta_n R_n + (1 - \beta_n)(\beta_{n - 1}R_{n - 1} + (1 - \beta_{n - 1}) Q_{n - 1})\\
+    &= \beta_n R_n + (1 - \beta_n)\beta_{n - 1}R_{n - 1} + (1 - \beta_n)(1 - \beta_{n - 1}) Q_{n - 1})\\
+    &=  Q_1\prod_{i = 1}^n (1 - \beta_i) + \prod_{i = 1} ^n \beta_i \Big(\prod_{j = i + 1}^n (1 - \beta_j)\Big) R_i\\
+  \end{align*}
+  As $\bar{o}_1 = \bar{o}_0 + \alpha(1 - \bar{o}_0) = 0 + \alpha(1 - 0) = \alpha$ and so
+  $1 - \beta_1 = 1 - \alpha/\bar{o}_1 = 1 - \alpha/\alpha = 0$, the coefficient of
+  $Q_1$ in the equation above is $0$. That is
+    \begin{align*}
+    Q_{n + 1} &= \prod_{i = 1} ^n \beta_i \Big(\prod_{j = i + 1}^n (1 - \beta_j)\Big) R_i\\
+  \end{align*}
+
+  We can prove by induction that the sum of the coefficients here are $1$, so this is indeed
+  a weighted average.
+
+  $\bar{o}_{n + 1}$ is the weighted average of $1$ an $\bar{o}_n.$ This means it increases over time and
+  converges to $1$. Because of this, $\beta_n$ starts with value $1$ and converges to $\alpha$.
+  Hence, the coefficient of $R_i$ is smaller than $(1 - \alpha)^{n - i}$, hence this is
+  recency-weighted average.
+
 \end{enumerate}
 \end{document}
