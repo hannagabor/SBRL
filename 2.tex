@@ -80,9 +80,15 @@
   perform particularly better or worse, on average, on particular early steps?}
 
   With very high probability, the first $10$ choices will cover all the possible actions
-  once. After the $10^th$ action, we have a an estimation of the action values based
-  on the 
-
-
+  once. After the $10^{th}$ action, we have an estimation of the action values based
+  on actually trying them, but the optimal starting value still dominates these estimates.
+  The $11^{th}$ step is chosen based on the rewards, not on the optimisic starting values,
+  this causes a big spike at step $11$. In steps $11-20$ (with high probability) we will
+  choose all the actions once, starting with the action that has the highest estimated
+  action value and continuing in this order. After $20$ steps, we will have tried all
+  the actions twice and at step $21$, we choose an action based on these estimates.
+  This will cause a spike at step $21$.
+  The starting values will have less and less effect, it won't be true that in steps
+  $10k - 10(k + 1)$ we will try all the actions once, so these spikes will disappear.
 \end{enumerate}
 \end{document}
