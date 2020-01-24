@@ -142,5 +142,16 @@
   this causes a big spike at step $11$. In steps $11-20$ (with high probability) we will
   choose all the actions once, starting with the action that has the highest estimated
   action value and continuing in this order.
+
+\item
+  \textit{Show that in the case of two actions, the soft-max distribution is the same
+as that given by the logistic, or sigmoid, function often used in statistics and artificial
+neural networks.}
+
+  We may suppose that $H(a_2) = 0$, since adding/subtracting a number to both preference
+  values makes no difference in the probabilities. With that
+  \[
+  Pr(A = a_1) = \frac{e^{H(a_1)}}{e^{H(a_1)} + e^{H(a_2)}} = \frac{e^{H(a_1)}}{e^{H(a_1)} + 1} = \sigma(a_1)
+  \]
 \end{enumerate}
 \end{document}
