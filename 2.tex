@@ -145,13 +145,37 @@
 
 \item
   \textit{Show that in the case of two actions, the soft-max distribution is the same
-as that given by the logistic, or sigmoid, function often used in statistics and artificial
-neural networks.}
+  as that given by the logistic, or sigmoid, function often used in statistics and artificial
+  neural networks.}
 
   We may suppose that $H(a_2) = 0$, since adding/subtracting a number to both preference
   values makes no difference in the probabilities. With that
   \[
   Pr(A = a_1) = \frac{e^{H(a_1)}}{e^{H(a_1)} + e^{H(a_2)}} = \frac{e^{H(a_1)}}{e^{H(a_1)} + 1} = \sigma(a_1)
   \]
+
+\item
+  \textit{Suppose you face a 2-armed bandit task whose true action values change
+  randomly from time step to time step. Specifically, suppose that, for any time step, the
+  true values of actions 1 and 2 are respectively 0.1 and 0.2 with probability 0.5 (case A),
+  and 0.9 and 0.8 with probability 0.5 (case B). If you are not able to tell which case you
+  face at any step, what is the best expectation of success you can achieve and how should
+  you behave to achieve it? Now suppose that on each step you are told whether you are
+  facing case A or case B (although you still don’t know the true action values). This is an
+  associative search task. What is the best expectation of success you can achieve in this
+  task, and how should you behave to achieve it?}
+
+  If I'm not able to tell which case I'm faced with, it doesn't matter what I do:
+  with probability $0.5$, I get an extra $0.1$ reward for choosing action $1$,
+  and with probability $0.5$, I get an extra $0.1$ reward for choosing action $2$.
+  I choose a simple policy: always choose action $1$. The expected reward is
+  \[
+  0.5 \cdot 0.1 + 0.5 \cdot 0.9 = 0.5
+  \]
+
+  If I'm told whether I'm facing case $A$ or case $B$, then the best policy is to choose
+  action $2$ in case $A$, and choose action $1$ in case $B$. The expected reward in this
+  case is
+  \[0.5 \cdot 0.2 + 0.5 \cdot 0.9 = 0.55\]
 \end{enumerate}
 \end{document}
