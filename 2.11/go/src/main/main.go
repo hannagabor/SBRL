@@ -11,9 +11,9 @@ import (
 	"math/rand"
 )
 
-const numRuns = 1
+const numRuns = 2000
 const numArms = 10
-const numSteps = 5
+const numSteps = 200000
 
 type Arm struct {
 	mean   float64
@@ -125,11 +125,13 @@ func simulate(player Player) float64 {
 			a := arms[player.choose()]
 			r := a.getReward()
 			player.updateInnerState(r)
-			a.changeMean()
-			sumAvgReward += getAvgReward(player)
+			for _, a := range(arms) {
+				a.changeMean()
+			}
 		}
+		sumAvgReward += getAvgReward(player)
 	}
-	return sumAvgReward
+	return sumAvgReward/numRuns
 }
 
 func getTicks(min, max float64) []plot.Tick {
