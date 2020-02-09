@@ -72,7 +72,8 @@ class EpsilonGreedyPlayer(Player):
         self.step += 1
         if self.step > STEPS / 2:
             self.sum_rewards += reward
-        self.estimations[self.chosen] += self.alpha
+        self.estimations[self.chosen] += self.alpha * \
+            (reward - self.estimations[self.chosen])
 
 
 class UCBPlayer(Player):

@@ -29,82 +29,13 @@ func (a *Arm) changeMean() {
 	a.mean += change
 }
 
-type Player interface {
-	choose() int
-	updateInnerState(reward float64)
-	getRewardSum() float64
-	getParam() float64
-	getName() string
-}
-
-func maxFloat(s []float64) int {
-	maxValue := math.Inf(-1)
-	maxId := 0
-	for i, e := range s {
-		if e > maxValue {
-			maxValue = e
-			maxId = i
-		}
-	}
-	return maxId
-}
-
-func getAvgReward(p Player) float64 {
-	return p.getRewardSum() / (numSteps / 2)
-}
-
-type GreedyPlayer struct {
-	param       float64
-	step        int
-	name        string
-	rewardSum   float64 // Sum of rewards in the second half.
-	estimations []float64
-	alpha       float64
-	chosen      int
-}
-
-func (p *GreedyPlayer) getParam() float64 {
-	return p.param
-}
-
-func (p *GreedyPlayer) getRewardSum() float64 {
-	return p.rewardSum
-}
-
-func (p *GreedyPlayer) getName() string {
-	return p.name
-}
-
-func (p *GreedyPlayer) choose() int {
-	p.chosen = maxFloat(p.estimations)
-	return p.chosen
-}
-
-func (p *GreedyPlayer) updateInnerState(reward float64) {
-	p.step += 1
-	if p.step > numSteps/2 {
-		p.rewardSum += reward
-	}
-	p.estimations[p.chosen] += p.alpha * (reward - p.estimations[p.chosen])
-}
-
-func NewGreedyPlayer(initValue float64) *GreedyPlayer {
-	estimations := make([]float64, numArms, numArms)
-	for i := 0; i < numArms; i++ {
-		estimations[i] = initValue
-	}
-	return &GreedyPlayer{
-		param:       initValue,
-		name:        "optimistic greedy",
-		estimations: estimations,
-		alpha:       0.1,
-	}
-}
-
 func getPlayers() []Player {
 	var players []Player
 	for i := -2; i < 3; i++ {
 		players = append(players, NewGreedyPlayer(math.Pow(2, float64(i))))
+	}
+	for i := -7; i < -1; i++ {
+		players = append(players, NewEpsilonGreedyPlayer(math.Pow(2, float64(i))))
 	}
 	return players
 }
@@ -157,11 +88,13 @@ func createPlot(avgRewards map[string]plotter.XYs) {
 	if err != nil {
 		panic(err)
 	}
+	plotInp := make([]interface{}, 0, len(avgRewards))
 	for name, xys := range avgRewards {
-		err = plotutil.AddLinePoints(p, name, xys)
-		if err != nil {
-			panic(err)
-		}
+		plotInp = append(plotInp, ([]interface{}{name, xys})...)
+	}
+	err = plotutil.AddLinePoints(p, plotInp...)
+	if err != nil {
+		panic(err)
 	}
 	if err := p.Save(4*vg.Inch, 4*vg.Inch, "plot.png"); err != nil {
 		panic(err)
