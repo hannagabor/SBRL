@@ -186,3 +186,86 @@ func NewUCBPlayer(c float64) *UCBPlayer {
 		c:           c,
 	}
 }
+
+type GradientBanditPlayer struct {
+	param         float64
+	step          int
+	name          string
+	rewardSum     float64 // Sum of rewards in the second half.
+	probs         []float64
+	preferences   []float64
+	fullRewardSum float64
+	alpha         float64
+	chosen        int
+}
+
+func (p *GradientBanditPlayer) getParam() float64 {
+	return p.param
+}
+
+func (p *GradientBanditPlayer) getRewardSum() float64 {
+	return p.rewardSum
+}
+
+func (p *GradientBanditPlayer) getName() string {
+	return p.name
+}
+
+func sample(probs []float64) int {
+	r := rand.Float64()
+	sum := 0.0
+	for i, p := range probs {
+		sum += p
+		if r < sum {
+			return i
+		}
+	}
+	panic("Invalid distribution.")
+}
+
+func (p *GradientBanditPlayer) choose() int {
+	exps := make([]float64, numArms, numArms)
+	sumExps := 0.0
+	for a := 0; a < numArms; a++ {
+		exps[a] = math.Exp(p.preferences[a])
+		sumExps += exps[a]
+	}
+	for a := 0; a < numArms; a++ {
+		p.probs[a] = exps[a] / sumExps
+	}
+	p.chosen = sample(p.probs)
+	return p.chosen
+}
+
+func (p *GradientBanditPlayer) updateInnerState(reward float64) {
+	var avgBefore float64
+	if p.step == 0 {
+		avgBefore = 0
+	} else {
+		avgBefore = p.fullRewardSum / float64(p.step)
+	}
+	p.step += 1
+	if p.step > numSteps/2 {
+		p.rewardSum += reward
+	}
+	p.fullRewardSum += reward
+	for a := 0; a < numArms; a++ {
+		if a == p.chosen {
+			p.preferences[a] += p.alpha * (reward - avgBefore) * (1 - p.probs[a])
+		} else {
+			p.preferences[a] -= p.alpha * (reward - avgBefore) * p.probs[a]
+		}
+	}
+}
+
+func NewGradientBanditPlayer(alpha float64) *GradientBanditPlayer {
+	preferences := make([]float64, numArms, numArms)
+	probs := make([]float64, numArms, numArms)
+	return &GradientBanditPlayer{
+		param:       alpha,
+		name:        "gradient bandit (alpha)",
+		preferences: preferences,
+		probs:       probs,
+		alpha:       alpha,
+	}
+}

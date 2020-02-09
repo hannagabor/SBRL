@@ -40,6 +40,9 @@ func getPlayers() []Player {
 	for i := -7; i < 3; i++ {
 		players = append(players, NewUCBPlayer(math.Pow(2, float64(i))))
 	}
+	for i := -7; i < 3; i++ {
+		players = append(players, NewGradientBanditPlayer(math.Pow(2, float64(i))))
+	}
 	return players
 }
 
