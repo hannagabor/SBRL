@@ -63,8 +63,8 @@ func simulate() []Player {
 			r := a.getReward()
 			player.updateInnerState(r)
 		}
-		for _, a := range arms {
-			a.changeMean()
+		for a := range arms {
+			arms[a].changeMean()
 		}
 	}
 	return players
