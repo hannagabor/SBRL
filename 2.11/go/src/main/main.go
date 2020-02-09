@@ -117,21 +117,20 @@ func getArms() []Arm {
 	return arms
 }
 
-func simulate(player Player) float64 {
-	sumAvgReward := 0.0
-	for i := 0; i < numRuns; i++ {
-		arms := getArms()
-		for j := 0; j < numSteps; j++ {
+func simulate() []Player {
+	players := getPlayers()
+	arms := getArms()
+	for j := 0; j < numSteps; j++ {
+		for _, player := range players {
 			a := arms[player.choose()]
 			r := a.getReward()
 			player.updateInnerState(r)
-			for _, a := range(arms) {
-				a.changeMean()
-			}
 		}
-		sumAvgReward += getAvgReward(player)
+		for _, a := range arms {
+			a.changeMean()
+		}
 	}
-	return sumAvgReward/numRuns
+	return players
 }
 
 func getTicks(min, max float64) []plot.Tick {
@@ -154,7 +153,6 @@ func getTicks(min, max float64) []plot.Tick {
 func createPlot(avgRewards map[string]plotter.XYs) {
 	p, err := plot.New()
 	p.X.Scale = plot.LogScale{}
-	// p.X.Tick.Marker = plot.LogTicks{}
 	p.X.Tick.Marker = plot.TickerFunc(getTicks)
 	if err != nil {
 		panic(err)
@@ -172,12 +170,19 @@ func createPlot(avgRewards map[string]plotter.XYs) {
 
 func main() {
 	players := getPlayers()
+	sumRewards := make([]float64, len(players), len(players))
+
+	for i := 0; i < numRuns; i++ {
+		players = simulate()
+		for playerID, player := range players {
+			sumRewards[playerID] += getAvgReward(player)
+		}
+	}
 	avgRewards := make(map[string]plotter.XYs)
-	for _, player := range players {
+	for id, player := range players {
 		x := player.getParam()
-		y := simulate(player)
+		y := sumRewards[id] / numRuns
 		avgRewards[player.getName()] = append(avgRewards[player.getName()], plotter.XY{X: x, Y: y})
-		fmt.Println(avgRewards)
 	}
 	createPlot(avgRewards)
 }
