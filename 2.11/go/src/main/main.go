@@ -31,11 +31,14 @@ func (a *Arm) changeMean() {
 
 func getPlayers() []Player {
 	var players []Player
-	for i := -2; i < 3; i++ {
+	for i := -7; i < 3; i++ {
 		players = append(players, NewGreedyPlayer(math.Pow(2, float64(i))))
 	}
-	for i := -7; i < -1; i++ {
+	for i := -7; i < 3; i++ {
 		players = append(players, NewEpsilonGreedyPlayer(math.Pow(2, float64(i))))
+	}
+	for i := -7; i < 3; i++ {
+		players = append(players, NewUCBPlayer(math.Pow(2, float64(i))))
 	}
 	return players
 }

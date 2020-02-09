@@ -128,3 +128,61 @@ func NewEpsilonGreedyPlayer(epsilon float64) *EpsilonGreedyPlayer {
 		epsilon:     epsilon,
 	}
 }
+
+type UCBPlayer struct {
+	param       float64
+	step        int
+	name        string
+	rewardSum   float64 // Sum of rewards in the second half.
+	estimations []float64
+	armSelected []float64
+	c           float64
+	chosen      int
+}
+
+func (p *UCBPlayer) getParam() float64 {
+	return p.param
+}
+
+func (p *UCBPlayer) getRewardSum() float64 {
+	return p.rewardSum
+}
+
+func (p *UCBPlayer) getName() string {
+	return p.name
+}
+
+func (p *UCBPlayer) choose() int {
+	ucb := make([]float64, numArms, numArms)
+	for a := 0; a < numArms; a++ {
+		if p.armSelected[a] == 0 {
+			ucb[a] = math.Inf(1)
+		} else {
+			uncertainty := math.Sqrt(math.Log(float64(p.step+1)) / p.armSelected[a])
+			ucb[a] = p.estimations[a] + p.c*uncertainty
+		}
+	}
+	p.chosen = maxFloat(ucb)
+	return p.chosen
+}
+
+func (p *UCBPlayer) updateInnerState(reward float64) {
+	p.step += 1
+	if p.step > numSteps/2 {
+		p.rewardSum += reward
+	}
+	p.armSelected[p.chosen] += 1
+	p.estimations[p.chosen] += (1.0 / float64(p.step)) * (reward - p.estimations[p.chosen])
+}
+
+func NewUCBPlayer(c float64) *UCBPlayer {
+	estimations := make([]float64, numArms, numArms)
+	armSelected := make([]float64, numArms, numArms)
+	return &UCBPlayer{
+		param:       c,
+		name:        "UCB (c)",
+		estimations: estimations,
+		armSelected: armSelected,
+		c:           c,
+	}
+}
