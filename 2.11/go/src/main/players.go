@@ -172,7 +172,7 @@ func (p *UCBPlayer) updateInnerState(reward float64) {
 		p.rewardSum += reward
 	}
 	p.armSelected[p.chosen] += 1
-	p.estimations[p.chosen] += (1.0 / float64(p.step)) * (reward - p.estimations[p.chosen])
+	p.estimations[p.chosen] += (1.0 / float64(p.armSelected[p.chosen])) * (reward - p.estimations[p.chosen])
 }
 
 func NewUCBPlayer(c float64) *UCBPlayer {
