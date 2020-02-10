@@ -34,13 +34,13 @@ func getPlayers() []Player {
 	for i := -7; i < 3; i++ {
 		players = append(players, NewGreedyPlayer(math.Pow(2, float64(i))))
 	}
-	for i := -7; i < 3; i++ {
+	for i := -10; i < -3; i++ {
 		players = append(players, NewEpsilonGreedyPlayer(math.Pow(2, float64(i))))
 	}
-	for i := -7; i < 3; i++ {
+	for i := 4; i < 10; i++ {
 		players = append(players, NewUCBPlayer(math.Pow(2, float64(i))))
 	}
-	for i := -7; i < 3; i++ {
+	for i := -15; i < -10; i++ {
 		players = append(players, NewGradientBanditPlayer(math.Pow(2, float64(i))))
 	}
 	return players
@@ -72,7 +72,7 @@ func simulate() []Player {
 
 func getTicks(min, max float64) []plot.Tick {
 	ticks := make([]plot.Tick, 0)
-	for i := -5; i < 5; i++ {
+	for i := -20; i < 20; i++ {
 		t := math.Pow(2, float64(i))
 		if min <= t && t <= max {
 			var l string
@@ -91,6 +91,9 @@ func createPlot(avgRewards map[string]plotter.XYs) {
 	p, err := plot.New()
 	p.X.Scale = plot.LogScale{}
 	p.X.Tick.Marker = plot.TickerFunc(getTicks)
+	p.Y.Label.Text = "Average reward ove steps 100000-200000"
+	p.X.Label.Text = "init_value/epsilon/c/alpha"
+	p.Title.Text = "Non-statoniary parameter study"
 	if err != nil {
 		panic(err)
 	}
@@ -102,7 +105,7 @@ func createPlot(avgRewards map[string]plotter.XYs) {
 	if err != nil {
 		panic(err)
 	}
-	if err := p.Save(4*vg.Inch, 4*vg.Inch, "plot.png"); err != nil {
+	if err := p.Save(8*vg.Inch, 8*vg.Inch, "parameter_study.png"); err != nil {
 		panic(err)
 	}
 }
