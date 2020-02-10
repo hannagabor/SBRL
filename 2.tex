@@ -3,10 +3,16 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb, amsmath, amsthm}
 \usepackage{graphics, graphicx}
-\graphicspath{ {./2.5/} }
+\usepackage{hyperref}
+\graphicspath{ {./2.5/} {./2.11/go/src/main/} }
 \pagestyle{empty}
 \newtheorem{lemma}{Lemma}
 \newtheorem{thm}{Theorem}
+
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+}
 
 \begin{document}
 \textbf{Chapter 2 solutions  \hfill Hanna Gábor}
@@ -66,11 +72,12 @@
   and another action-value method using a constant step-size parameter, $\alpha = 0.1$. Use
   $\epsilon = 0.1$ and longer runs, say of 10,000 steps.}
 
+  Code can be found \href{https://github.com/hannagabor/SBRL/blob/master/2.5/src/main.rs}{here}.
   \begin{center}
   \includegraphics[scale=0.3]{average}
   \\
   \includegraphics[scale=0.3]{optimal}
-\end{center}
+  \end{center}
 
 
 \item
@@ -177,5 +184,18 @@
   action $2$ in case $A$, and choose action $1$ in case $B$. The expected reward in this
   case is
   \[0.5 \cdot 0.2 + 0.5 \cdot 0.9 = 0.55\]
+
+\item
+  \textit{(programming) Make a figure analogous to Figure 2.6 for the nonstationary
+case outlined in Exercise 2.5. Include the constant-step-size $\epsilon$-greedy algorithm with
+$\alpha = 0.1$. Use runs of 200000 steps and, as a performance measure for each algorithm and
+parameter setting, use the average reward over the last 100000 steps.}
+
+Code can be found \href{https://github.com/hannagabor/SBRL/tree/master/2.11/go/src/main}{here}.
+
+\begin{center}
+  \includegraphics[scale=0.3]{parameter_study}
+\end{center}
+
 \end{enumerate}
 \end{document}

@@ -105,7 +105,7 @@ func createPlot(avgRewards map[string]plotter.XYs) {
 	if err != nil {
 		panic(err)
 	}
-	if err := p.Save(8*vg.Inch, 8*vg.Inch, "parameter_study.png"); err != nil {
+	if err := p.Save(12*vg.Inch, 8*vg.Inch, "parameter_study.png"); err != nil {
 		panic(err)
 	}
 }
