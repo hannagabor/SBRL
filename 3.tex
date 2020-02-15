@@ -68,5 +68,26 @@
 
     I'm pretty sure that these are the good boundaries, but can't think of good
     rules.
+
+  \item
+    \textit{Give a table analogous to that in Example 3.3, but for $p(s', r|s, a)$. It
+      should have columns for $s, a, s', r$, and $p(s', r|s, a)$, and a row for every 4-tuple
+      for which $p(s', r | s, a) > 0$.}
+
+    \begin{center}
+      \begin{tabular}{ c|c|c|c|c }
+        $s$ & $a$ & $s'$ & $r$ & $p(s', r | s, a)$ \\
+       \hline
+       high & search & high & $r_{search}$ & $\alpha$ \\
+       high & search & low & $r_{search}$ & $1 - \alpha$ \\
+       low & search & high & $-3$ & $1 - \beta$ \\
+       low & search & low & $r_{search}$ & $\beta$ \\
+       high & wait & high & $r_{wait}$ & $1$ \\
+       low & wait & low & $r_{wait}$ & $1$ \\
+       low & recharge & low & $0$ & $1$ \\
+      \end{tabular}
+    \end{center}
+
+
 \end{enumerate}
 \end{document}
