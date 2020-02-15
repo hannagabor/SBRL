@@ -1,0 +1,72 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage{graphics, graphicx}
+\usepackage{hyperref}
+\pagestyle{empty}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+}
+
+\begin{document}
+\textbf{Chapter 3 solutions  \hfill Hanna Gábor}
+
+\begin{enumerate}
+  \item
+    \textit{Devise three example tasks of your own that fit into the MDP framework,
+    identifying for each its states, actions, and rewards. Make the three examples as different
+    from each other as possible. The framework is abstract and flexible and can be applied in
+    many different ways. Stretch its limits in some way in at least one of your examples.}
+    \begin{itemize}
+      \item Games are an easy example. For example, in Snake the state is the current board, actions are
+      turning left or right or continuing forward. Rewards are whether you picked up
+      a chip or not.
+      \item Public transportation development. Suppose we measured when and how many people
+      use which line. (E.g. if we have an electronic ticket system, then this can be easily done.)
+      Also suppose that we can simulate how people choose transportation vehicles. The actions
+      would be like building a bus line here or a tram line there. The state is the graph created from
+      the current lines and the possible new lines with their costs. Your current budget is
+      also part of the state.
+      The reward can be the number of people using public transport (the more the better)
+      or the overall time needed for transportation (the less the better).
+      We can add many things to this example. For example, you might need to bar some
+      roads while you're building a new railway line.
+    \end{itemize}
+  \item
+    \textit{Is the MDP framework adequate to usefully represent all goal-directed
+    learning tasks? Can you think of any clear exceptions?}
+
+    I'm not sure I'm working with the correct definition of "goal-directed" learning tasks
+    in this exercise.
+
+    An exception is if we can't make good intermediate rewards and reaching a good end-state
+    is extremely unlikely. For example, if I don't know anything about how a car works
+    and want a program that can learn to make a car. I can give a robot tools and give a reward
+    if it builds a working car, but it will never get into a state like that.
+
+    Another exception is if we can't really simulate the thing and can't try
+    different methods in real life. E.g. I would like to make people happier. Should
+    I start researching positive psychology or teach programming to poor kids or do something
+    else? It's impossible to try taking different routes, to measure the resulting happiness
+    or make a useful simulation for a virtual learning algorithm.
+  \item
+    \textit{Consider the problem of driving. You could define the actions in terms of
+    the accelerator, steering wheel, and brake, that is, where your body meets the machine.
+    Or you could define them farther out—say, where the rubber meets the road, considering
+    your actions to be tire torques. Or you could define them farther in—say, where your
+    brain meets your body, the actions being muscle twitches to control your limbs. Or you
+    could go to a really high level and say that your actions are your choices of where to drive.
+    What is the right level, the right place to draw the line between agent and environment?
+    On what basis is one location of the line to be preferred over another? Is there any
+    fundamental reason for preferring one location over another, or is it a free choice?}
+
+    If it's about learning to drive a car, then the actions should be defined in terms
+    of the accelerator, steering wheel and brake. If it's about learning to plan my
+    days more efficiently then the actions should be defined as where I drive.
+
+    I'm pretty sure that these are the good boundaries, but can't think of good
+    rules.
+\end{enumerate}
+\end{document}
