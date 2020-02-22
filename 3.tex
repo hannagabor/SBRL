@@ -143,5 +143,15 @@
   7 \frac{1}{1 - \gamma} = \frac{7}{0.1} = 70$
 
   $G_0 = 2 + 0.9 \cdot 70 = 65$
+
+\item
+  \textit{Prove the second equality in (3.10).}
+  \begin{align*}
+    S_n &= \sum\limits_{i = 0}^n \gamma^i\\
+    (\gamma - 1)S_n &= \gamma^{n + 1} - 1\\
+    S_n &= \frac{\gamma^{n + 1} - 1}{\gamma - 1}\\
+    \lim_{n \to \infty} S_n &= \frac{ - 1}{\gamma - 1} = \frac{1}{1 - \gamma}
+  \end{align*}
+
 \end{enumerate}
 \end{document}
