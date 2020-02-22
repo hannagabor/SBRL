@@ -121,5 +121,27 @@
   The expected total reward is always $1$, the agent has no motivation to escape the maze
   early.
 
+\item
+  \textit{Suppose $\gamma = 0.5$ and the following sequence of rewards is received $R_1 = -1,$\\
+  $R_2 = 2, R_3 = 6, R_4 = 3$, and $R_5 = 2$, with T = 5. What are $G_0, G_1, ..., G_5$? Hint:
+  Work backwards.}
+
+  \begin{align*}
+    G_5 = 0\\
+    G_4 = 2\\
+    G_3 = 3 + 0.5 \cdot 2 = 4\\
+    G_2 = 6 + 0.5 \cdot 4 = 8\\
+    G_1 = 2 + 0.5 \cdot 8 = 6\\
+    G_0 = -1 + 0.5 \cdot 6 = 2
+  \end{align*}
+
+\item
+  \textit{Suppose $\gamma = 0.9$ and the reward sequence is $R_1 = 2$ followed by an infinite
+  sequence of 7s. What are $G_1$ and $G_0$?}
+
+  $G_1 = 7 + \gamma 7 + \gamma^2 7 + \dots = 7 \sum\limits_{i = 0}^{\infty} \gamma^i =
+  7 \frac{1}{1 - \gamma} = \frac{7}{0.1} = 70$
+
+  $G_0 = 2 + 0.9 \cdot 70 = 65$
 \end{enumerate}
 \end{document}
