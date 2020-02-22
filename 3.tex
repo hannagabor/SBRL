@@ -98,6 +98,16 @@
     s \in \mathcal{S}, a \in \mathcal{A}(s)
     \]
 
+  \item
+    \textit{Suppose you treated pole-balancing as an episodic task but also used
+    discounting, with all rewards zero except for -1 upon failure. What then would the
+    return be at each time? How does this return differ from that in the discounted, continuing
+    formulation of this task?}
+
+  The return would be $-\gamma^K$ where $K$ is the number of time steps before the next failure.
+  Opposed to the continuing formulation, only the reward for the next failure is included
+  in the return. In the continuing formulation, all the later failures have an effect on the
+  return. (Although the later the failure occurs, the smaller the effect becomes.)
 
 \end{enumerate}
 \end{document}
