@@ -153,5 +153,12 @@
     \lim_{n \to \infty} S_n &= \frac{ - 1}{\gamma - 1} = \frac{1}{1 - \gamma}
   \end{align*}
 
+\item
+  \textit{If the current state is $S_t$, and actions are selected according to stochastic
+  policy $\pi$, then what is the expectation of $R_{t+1}$ in terms of $\pi$ and the four-argument-function p (3.2)?}
+
+  \[\mathbb{E}(R_{t + 1}) = \sum\limits_{a \in \mathcal{A}} \pi(a | S_t)
+  \sum\limits_{r \in \mathcal{R}} r \sum\limits_{s' \in \mathcal{S}}p(s', r | s, a) \]
+
 \end{enumerate}
 \end{document}
