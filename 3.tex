@@ -160,5 +160,18 @@
   \[\mathbb{E}(R_{t + 1}) = \sum\limits_{a \in \mathcal{A}} \pi(a | S_t)
   \sum\limits_{r \in \mathcal{R}} r \sum\limits_{s' \in \mathcal{S}}p(s', r | s, a) \]
 
+\item
+  \textit{Give an equation for $v_{\pi}$ in terms of $q_{\pi}$ and $\pi$.}
+
+  \[v_\pi(s) = \sum\limits_{a \in \mathcal{A}} \pi(a) q_\pi(s, a)\]
+
+\item
+  \textit{Give an equation for $q_{\pi}$ in terms of $v_{\pi}$ and the four-argument p.}
+
+  \[
+  q_\pi(s,a) = \sum\limits_{r \in \mathcal{R}} \sum\limits_{s' \in \mathcal{S}}p(s', r |s, a) (r + \gamma v_\pi(s'))
+  \]
+
+
 \end{enumerate}
 \end{document}
