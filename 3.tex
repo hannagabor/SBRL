@@ -172,6 +172,16 @@
   q_\pi(s,a) = \sum\limits_{r \in \mathcal{R}} \sum\limits_{s' \in \mathcal{S}}p(s', r |s, a) (r + \gamma v_\pi(s'))
   \]
 
+\item
+  \textit{The Bellman equation (3.14) must hold for each state for the value function
+  $v_\pi$ shown in Figure 3.2 (right) of Example 3.5. Show numerically that this equation holds
+  for the center state, valued at +0.7, with respect to its four neighboring states, valued at
+  +2.3, +0.4, -0.4, and +0.7. (These numbers are accurate only to one decimal place.)}
+
+  Let $s$ denote the state with value $0.7$.
+
+  \[v_\pi(s) = \sum\limits_{s' \text{is a neigbor of } s} 0.25 \cdot  (0 + 0.9 \cdot v_\pi(s')) =
+  0.25 \cdot 0.9(2.3 + 0.4 - 0.4 + 0.7) = 0.25 \cdot 0.9 \cdot 2.6 \approx 0.7\]
 
 \end{enumerate}
 \end{document}
