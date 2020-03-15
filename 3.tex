@@ -202,6 +202,17 @@
 
   Hence, $v_c = \sum\limits_{k = 0}^\infty \gamma^k c$.
 
+\item
+  \textit{Now consider adding a constant c to all the rewards in an episodic task,
+  such as maze running. Would this have any effect, or would it leave the task unchanged,
+  as in the continuing task above? Why or why not? Give an example.}
+
+  In the episodic case, adding a constant to all the rewards does have an effect,
+  because the rewards after the end of the episode are still zeros. E.g. having a constant
+  $1$ reward while you are in the maze, encourages staying in the maze, (After you are
+  out of the maze, you won't collect rewards any more.) If the rewards are $-1$s, then
+  you're encouraged to leave the maze. (You won't get penalties after you've find
+  your way out of the maze.)
 
 \end{enumerate}
 \end{document}
