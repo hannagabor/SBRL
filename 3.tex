@@ -183,5 +183,25 @@
   \[v_\pi(s) = \sum\limits_{s' \text{is a neigbor of } s} 0.25 \cdot  (0 + 0.9 \cdot v_\pi(s')) =
   0.25 \cdot 0.9(2.3 + 0.4 - 0.4 + 0.7) = 0.25 \cdot 0.9 \cdot 2.6 \approx 0.7\]
 
+\item
+  \textit{In the gridworld example, rewards are positive for goals, negative for
+  running into the edge of the world, and zero the rest of the time. Are the signs of these
+  rewards important, or only the intervals between them? Prove, using (3.8), that adding a
+  constant c to all the rewards adds a constant, $v_c$, to the values of all states, and thus
+  does not affect the relative values of any states under any policies. What is $v_c$ in terms
+  of c and $\gamma$?}
+
+  Only the intervals are important. Adding a constant $c$ to all rewards results in
+  the following change.
+
+  \[
+  v_\pi(s) = \mathbb{E}_\pi \Big(\sum\limits_{k = 0}^\infty \gamma^k (R_{t + k + 1} + c) \Bigm\lvert S_t = s\Big)
+  = \mathbb{E}_\pi \Big(\sum\limits_{k = 0}^\infty \gamma^k R_{t + k + 1} \Bigm\lvert S_t = s\Big) +
+  \sum\limits_{k = 0}^\infty \gamma^k c
+  \]
+
+  Hence, $v_c = \sum\limits_{k = 0}^\infty \gamma^k c$.
+
+
 \end{enumerate}
 \end{document}
