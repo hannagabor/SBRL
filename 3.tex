@@ -214,5 +214,20 @@
   you're encouraged to leave the maze. (You won't get penalties after you've find
   your way out of the maze.)
 
+\item
+  \textit{What is the Bellman equation for action values, that is, for $q_\pi$?
+  It must give the action value $q_\pi(s, a)$ in terms of the action values, $q_\pi(s', a')$,
+  of possible successors to the state–action pair (s, a).\\
+  Hint: The backup diagram to the right corresponds to this equation.
+  Show the sequence of equations analogous to (3.14), but for action
+  values.}
+
+  \begin{align*}
+  q_\pi(s, a) & = \mathbb{E}(G_t | S_t = s, A_t = a)\\
+  & = \mathbb{E}(R_{t + 1} + \gamma G_{t + 1} | S_t = s, A_t = a)\\
+  & = \sum\limits_{s', r} p(s', r | s, a) (r + \gamma \mathbb{E} (G_{t + 1} | S_{t = 1} = s'))\\
+  & = \sum\limits_{s', r} p(s', r | s, a) \Big(r + \gamma \sum\limits_{a'}\pi(a' | s') q_\pi(s', a')\Big)
+  \end{align*}
+
 \end{enumerate}
 \end{document}
