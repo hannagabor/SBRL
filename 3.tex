@@ -258,5 +258,49 @@
 
   \[q_\pi(s, a) = \mathbb{E}(R_{t + 1}) + \gamma \mathbb{E} (v_\pi (S_{t + 1}) | s = S_t, a = A_t)
   = \sum\limits_{s', r} p(s', r | s, a) (r + \gamma v_\pi(s'))\]
+
+\item
+  \textit{Draw or describe the optimal state-value function for the golf example.}
+
+  \[
+  v_\pi(s) =
+  \begin{cases}
+    -\infty & \text{if the ball is in the sand}\\
+    -1 & \text{if the ball is in the green area}\\
+    q_*(s, \text{driver}) & \text{otherwise}
+  \end{cases}
+  \]
+
+\item
+  \textit{Draw or describe the contours of the optimal action-value function for
+  putting, $q_\pi(s, putter)$, for the golf example.}
+
+  \[
+  q_\pi(s, \text{putter}) =
+  \begin{cases}
+    -\infty & \text{if the ball is in the sand}\\
+    -1 & \text{if the ball is in the green area}\\
+    -2 & \text{if } v_{putt} = -2\\
+    -3 & \text{if } v_{putt} < -2 \text{ and we can put the ball somewhere where }\\
+    & q_*(s, \text{driver}) = -2\\
+    -4 & \text{otherwise}\\
+  \end{cases}
+  \]
+
+\item
+  \textit{Consider the continuing MDP shown on to the right. [Diagram.] The only decision
+  to be made is that in the top state, where two actions are available, left and right.
+  The numbers show the rewards that are received deterministically after
+  each action. There are exactly two deterministic policies,
+  $\pi_{left}$ and $\pi_{right}$. What policy is optimal if $\gamma = 0$? If $\gamma = 0.9$?
+  If $\gamma = 0.5$?}
+
+  If $\gamma = 0$, then only the next reward matters, so the optimal policy is
+  $\pi_{left}$.
+
+  If $\gamma = 0.9$, then the optimal policy is $\pi_{right}$, because $0 + 0.9 \cdot 2 > 1 + 0.9 \cdot 0$.
+
+  If $\gamma = 0.5$, then all the policies are optimal, because $0 + 0.5 \cdot 1 = 1 + 0.5 \cdot 0.$
+
 \end{enumerate}
 \end{document}
