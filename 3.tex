@@ -229,5 +229,21 @@
   & = \sum\limits_{s', r} p(s', r | s, a) \Big(r + \gamma \sum\limits_{a'}\pi(a' | s') q_\pi(s', a')\Big)
   \end{align*}
 
+\item
+ \textit{The value of a state depends on the values of the actions possible in that
+  state and on how likely each action is to be taken under the current policy. We can
+  think of this in terms of a small backup diagram rooted at the state and considering each
+  possible action. [Diagram.]
+  Give the equation corresponding to this intuition and diagram for the value at the root
+  node, $v_\pi(s)$, in terms of the value at the expected leaf node, $q_\pi(s, a)$, given
+  $S_t = s$. This equation should include an expectation conditioned on following the policy,
+  $\pi$. Then give a second equation in which the expected value is written out explicitly
+  in terms of $\pi(a|s)$ such that no expected value notation appears in the equation.}
+
+  \begin{align*}
+    v_\pi(s) = \mathbb{E}(q_\pi(s, a) | \text{a is chosen following }\pi) = \sum\limits_a \pi(a|s) q_\pi(s, a)
+  \end{align*}
+
+
 \end{enumerate}
 \end{document}
