@@ -324,5 +324,17 @@
     & = \gamma \max(q_\ast(h, s), q_\ast(h, w))\\
   \end{align*}
 
+\item
+  \textit{Figure 3.5 gives the optimal value of the best state of the gridworld as
+  24.4, to one decimal place. Use your knowledge of the optimal policy and (3.8) to express
+  this value symbolically, and then to compute it to three decimal places.}
+
+  If we are in this best state and follow the optimal policy, then we get a reward of $10$
+  in the next step, then get $0$ reward for the next $4$ steps, and then $10$ again and so on.
+  So the return we can get is
+  \[\sum\limits_{i = 0}^{\infty} \gamma^{5i} 10 = \frac{1}{1 - \gamma^5} = \frac{1}{1 - 0.9^5} \approx 2.442\]
+
+
+
 \end{enumerate}
 \end{document}
