@@ -302,5 +302,27 @@
 
   If $\gamma = 0.5$, then all the policies are optimal, because $0 + 0.5 \cdot 1 = 1 + 0.5 \cdot 0.$
 
+\item
+  \textit{Give the Bellman equation for $q_\ast$ for the recycling robot.}
+  \begin{align*}
+    q_\ast(h, s) &= p(h|h, s) (r(h, s, h) + \gamma \max(q_\ast(h, s), q_\ast(h, w))\\
+    & + p(l|h, s) (r(h, s, l) + \gamma \max(q_\ast(l, s), q_\ast(l, w) + q_\ast(l, r))\\
+    & = \alpha(r_{search} + \gamma \max(q_\ast(h, s), q_\ast(h, w))\\
+    & + (1 - \alpha)(r_{search} + \gamma \max(q_\ast(l, s), q_\ast(l, w) + q_\ast(l, r))\\
+    q_\ast(h, w) &= p(h|h, w) (r(h, w, h) + \gamma \max(q_\ast(h, s), q_\ast(h, w))\\
+    & + p(l|h, w) (r(h, w, l) + \gamma \max(q_\ast(l, s), q_\ast(l, w) + q_\ast(l, r))\\
+    & = r_{wait} + \gamma \max(q_\ast(h, s), q_\ast(h, w))\\
+    q_\ast(l, s) &= p(h|l, s) (r(l, s, h) + \gamma \max(q_\ast(h, s), q_\ast(h, w))\\
+    & + p(l|l, s) (r(l, s, l) + \gamma \max(q_\ast(l, s), q_\ast(l, w) + q_\ast(l, r))\\
+    & = (1 - \beta)(-3 + \gamma \max(q_\ast(h, s), q_\ast(h, w))\\
+    & + \beta(r_{search} + \gamma \max(q_\ast(l, s), q_\ast(l, w) + q_\ast(l, r))\\
+    q_\ast(l, w) &= p(h|l, w) (r(l, w, h) + \gamma \max(q_\ast(h, s), q_\ast(h, w))\\
+    & + p(l|l, w) (r(l, w, l) + \gamma \max(q_\ast(l, s), q_\ast(l, w) + q_\ast(l, r))\\
+    & = r_{wait} + \gamma \max(q_\ast(l, s), q_\ast(l, w) + q_\ast(l, r))\\
+    q_\ast(l, r) &= p(h|l, r) (r(l, r, h) + \gamma \max(q_\ast(h, s), q_\ast(h, w))\\
+    & + p(l|l, r) (r(l, r, l) + \gamma \max(q_\ast(l, s), q_\ast(l, w) + q_\ast(l, r))\\
+    & = \gamma \max(q_\ast(h, s), q_\ast(h, w))\\
+  \end{align*}
+
 \end{enumerate}
 \end{document}
