@@ -337,7 +337,7 @@
 \item
   \textit{Give an equation for $v_\ast$ in terms of $q_\ast$.}
 
-  \[v_\ast(s) = \max_{a \in \mathbb{A}(s)} q_\ast(s, a)\]
+  \[v_\ast(s) = \max_{a \in \mathcal{A}(s)} q_\ast(s, a)\]
 
 \item
   \textit{Give an equation for $q_\ast$ in terms of $v_\ast$ and the four-argument p.}
@@ -347,13 +347,28 @@
 \item
   \textit{Give an equation for $\pi_\ast$ in terms of $q_\ast$.}
 
-  \[\pi_\ast(s) = \max_{a \in \mathbb{A}(s)} q_\ast(s, a)\]
+  \[\pi_\ast(s) = \max_{a \in \mathcal{A}(s)} q_\ast(s, a)\]
 
 \item
   \textit{Give an equation for $\pi_\ast$ in terms of $v_\ast$ and the four-argument p.}
 
-  \[\pi_\ast(s) = \max_{a \in \mathbb{A}(s)} \sum\limits_{s', r}p(s', r | s, a) (r + \gamma v_\ast(s'))\]
+  \[\pi_\ast(s) = \max_{a \in \mathcal{A}(s)} \sum\limits_{s', r}p(s', r | s, a) (r + \gamma v_\ast(s'))\]
 
+\item
+  \textit{Rewrite the four Bellman equations for the four value functions ($v_\pi, v_\ast, q_\pi$,
+  and $q_\ast$) in terms of the three argument function p (3.4) and the two-argument function r
+  (3.5).}
+
+  \begin{align*}
+    v_\pi(s) &= \sum\limits_{a \in \mathcal{A}(s)} \pi(a|s) \Big(r(s, a)
+    + \gamma \sum\limits_{s'} p(s'|s, a)v_\pi(s')\Big)\\
+    v_\ast(s) &= \max_{a \in \mathcal{A}(s)} \Big(r(s, a)
+    + \gamma \sum\limits_{s'} p(s'|s, a)v_\ast(s')\Big)\\
+    q_\pi(s, a) &= r(s, a) + \gamma \sum\limits_{s'} p(s'|s, a)
+    \sum\limits_{a' \in \mathcal{A}(s')}\pi(a'|s')q_\pi(s', a')\\
+    q_\ast(s, a) &= r(s, a) + \gamma \sum\limits_{s'} p(s'|s, a)
+    \max_{a' \in \mathcal{A}(s')}(q_\ast(s', a'))\\
+  \end{align*}
 
 \end{enumerate}
 \end{document}
