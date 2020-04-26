@@ -15,13 +15,30 @@
 
 \begin{enumerate}
   \item
-   \textit{In Example 4.1, if $\pi$ is the equiprobable random policy, what is $q_\pi(11, down)$?
-   What is $q_\pi(7, down)$?}
+    \textit{In Example 4.1, if $\pi$ is the equiprobable random policy, what is $q_\pi(11, down)$?
+    What is $q_\pi(7, down)$?}
 
-   \begin{align*}
-   q_\pi(11, \text{down}) &= 0\\
-   q_\pi(7, \text{down}) &= -1 + v_\pi(11) = -15\\
-   \end{align*}
+    \begin{align*}
+    q_\pi(11, \text{down}) &= 0\\
+    q_\pi(7, \text{down}) &= -1 + v_\pi(11) = -15\\
+    \end{align*}
 
+  \item
+    \textit{2 In Example 4.1, suppose a new state 15 is added to the gridworld just below
+    state 13, and its actions, left, up, right, and down, take the agent to states 12, 13, 14,
+    and 15, respectively. Assume that the transitions from the original states are unchanged.
+    What, then, is $v_\pi(15)$ for the equiprobable random policy? Now suppose the dynamics of
+    state 13 are also changed, such that action down from state 13 takes the agent to the new
+    state 15. What is $v_\pi(15)$ for the equiprobable random policy in this case?}
+
+    Int he first case
+    \begin{align*}
+      v_\pi(15) &= -1 + (v_\pi(12) + v_\pi(13) + v_\pi(14) + v_\pi(15))/4\\
+      &=-1 + (- 22 - 20 - 14 + v_\pi(15))/4 = -15 + v_\pi(15)/4
+    \end{align*}
+    From this $v_\pi(15) = 4 \cdot (-15) /3 = - 20.0$
+
+    $v_\pi(15) = - 20.0$ in the second case as well, because we changed a state
+    transition to a another state transition, where the two states have the same value.
 \end{enumerate}
 \end{document}
