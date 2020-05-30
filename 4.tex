@@ -31,7 +31,7 @@
     state 13 are also changed, such that action down from state 13 takes the agent to the new
     state 15. What is $v_\pi(15)$ for the equiprobable random policy in this case?}
 
-    Int he first case
+    In the first case
     \begin{align*}
       v_\pi(15) &= -1 + (v_\pi(12) + v_\pi(13) + v_\pi(14) + v_\pi(15))/4\\
       &=-1 + (- 22 - 20 - 14 + v_\pi(15))/4 = -15 + v_\pi(15)/4
@@ -40,5 +40,18 @@
 
     $v_\pi(15) = - 20.0$ in the second case as well, because we changed a state
     transition to a another state transition, where the two states have the same value.
+
+  \item
+    \textit{What are the equations analogous to (4.3), (4.4), and (4.5), but for action-value
+    functions instead of state-value functions?}
+
+    \begin{align*}
+      q_\pi(s, a) &= \mathbb{E}(R_{t + 1} + \gamma v_\pi (S_{t + 1})|S_t = s, A_t = a )\\
+      &= \sum\limits_{r, s'} p(s', r | s, a) \Big(r + \sum\limits_{a'} \pi(a'|s') q_\pi(s', a')\Big)\\
+      q_{k + 1}(s, a) &\doteq \sum\limits_{r, s'} p(s', r | s, a) \Big(r + \sum\limits_{a'} \pi(a'|s') q_k(s', a')\Big)
+    \end{align*}
+
+
+
 \end{enumerate}
 \end{document}
