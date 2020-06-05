@@ -51,7 +51,18 @@
       q_{k + 1}(s, a) &\doteq \sum\limits_{r, s'} p(s', r | s, a) \Big(r + \sum\limits_{a'} \pi(a'|s') q_k(s', a')\Big)
     \end{align*}
 
+  \item
+    \textit{The policy iteration algorithm on page 80 has a subtle bug in that it may
+    never terminate if the policy continually switches between two or more policies that are
+    equally good. This is okay for pedagogy, but not for actual use. Modify the pseudocode
+    so that convergence is guaranteed.}
 
+    The easiest would be to break the ties in a deterministic ways when applying argmax.
+    We can also change $\text{if old-action} \neq \pi(s)$ to
+    \[
+    \sum\limits_{s', r} p(s', r | s, \text{old-action}) (r + \gamma V(s')) \neq
+    \sum\limits_{s', r} p(s', r | s, \pi(s)) (r + \gamma V(s'))
+    \]
 
 \end{enumerate}
 \end{document}
