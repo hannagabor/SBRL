@@ -4,6 +4,8 @@
 \usepackage{amssymb, amsmath, amsthm}
 \usepackage{graphics, graphicx}
 \usepackage{hyperref}
+\usepackage{algorithmic}
+\DeclareMathOperator*{\argmax}{argmax}
 \pagestyle{empty}
 \hypersetup{
   colorlinks   = true, %Colours links instead of ugly boxes
@@ -63,6 +65,40 @@
     \sum\limits_{s', r} p(s', r | s, \text{old-action}) (r + \gamma V(s')) \neq
     \sum\limits_{s', r} p(s', r | s, \pi(s)) (r + \gamma V(s'))
     \]
+
+  \item
+    \textit{How would policy iteration be defined for action values? Give a complete
+    algorithm for computing $q_\pi$, analogous to that on page 80 for computing $v_\pi$. Please pay
+    special attention to this exercise, because the ideas involved will be used throughout the
+    rest of the book.}
+
+    \begin{algorithmic}
+      \STATE 1. Initialization
+      \STATE $Q(s, a) \in \mathbb{R}$ and $\pi(s) \in \mathcal{A}(s)$ for all $s \in \mathcal{S}$
+      \STATE
+      \STATE 2. Policy Evaluation
+      \REPEAT
+      \STATE $\Delta \leftarrow 0$
+      \FORALL {$s \in \mathcal{S}$}
+      \FORALL {$a \in \mathcal{A}(s)$}
+      \STATE $q \leftarrow Q(s, a)$
+      \STATE $Q(s, a) \leftarrow \sum\limits_{r, s'} p(s', r | s, a) \Big(r + Q(s', \pi(s'))\Big)$
+      \STATE $\Delta \leftarrow \max(\Delta, |q - Q(s, a)|)$
+      \ENDFOR
+      \ENDFOR
+      \UNTIL $\Delta < \Theta$
+      \STATE
+      \STATE 3. Policy Improvement
+      \STATE $\textit{policy-stable} \leftarrow true$
+      \FORALL {$s \in \mathcal{S}$}
+      \STATE $\textit{old-action} \leftarrow \pi(s)$
+      \STATE $\pi(s) \leftarrow \argmax_a Q(s, a)$
+      \STATE If $Q(s, \textit{old-action}) \neq Q(s, \pi(s))$, then $\textit{policy-stable} \leftarrow false$
+      \ENDFOR
+      \STATE If $\textit{policy-stable}$, then stop and return $Q \approx q_\ast$ and
+      $\pi \approx \pi_\ast$; else go to $2$.
+    \end{algorithmic}
+
 
 \end{enumerate}
 \end{document}
