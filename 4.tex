@@ -99,6 +99,21 @@
       $\pi \approx \pi_\ast$; else go to $2$.
     \end{algorithmic}
 
+  \item
+    \textit{Suppose you are restricted to considering only policies that are $\epsilon$-soft,
+    meaning that the probability of selecting each action in each state, $s$, is at least $\epsilon/|A(s)|$.
+    Describe qualitatively the changes that would be required in each of the steps 3, 2, and 1,
+    in that order, of the policy iteration algorithm for $v_\pi$ on page 80.}
+
+    In step $3$, we would need to make a new policy that is $\epsilon$-soft. E.g. by
+    assigning the probability $1 - \epsilon(|A(s)| - 1)/|A(s)|$ to the action from $\argmax$
+    and $\epsilon/|A(s)|$ for the other actions. The comparison should check if
+    the sum for $\textit{old-policy}(s)$ matches the sum for $\pi(s)$.
+
+    In step $2$, $V(s)$ should be calculated by taking an expected value of the value
+    on the right, based on the distribution $\pi(a|s)$.
+
+    In step $1$, we should start with an $\epsilon$-soft policy $\pi$.
 
 \end{enumerate}
 \end{document}
