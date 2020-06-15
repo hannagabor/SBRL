@@ -197,27 +197,26 @@ func makePlot(states []State, pi []int) {
 	}
 	contour := plotter.NewContour(plottable, labels, nil)
 	pl.Add(contour)
-	stringLabels := make([]string, 0, 11)
-	for i := -5; i < 6; i++ {
-		stringLabels = append(stringLabels, strconv.Itoa(i))
-	}
 	labelsMap := make(map[int]plotter.XY, 11)
 	for i, state := range states {
 		labelsMap[pi[i]] = plotter.XY{float64(state.loc2), float64(state.loc1)}
 	}
-	XYs := make([]plotter.XY, 11)
-	for i, l := range labels {
-		XYs[i] = labelsMap[int(l)]
+	XYs := make([]plotter.XY, 0, 11)
+	stringLabels := make([]string, 0, 11)
+	for i, pos := range labelsMap {
+		stringLabels = append(stringLabels, strconv.Itoa(i))
+		XYs = append(XYs, pos)
 	}
 	ls, err := plotter.NewLabels(plotter.XYLabels{
 		XYs:    XYs,
 		Labels: stringLabels,
-	},
-	)
+	})
 	if err != nil {
 		panic(err)
 	}
 	pl.Add(ls)
+	pl.X.Label.Text = "Number of cars at the second location"
+	pl.Y.Label.Text = "Number of cars at the first location"
 	err = pl.Save(1000, 1000, "pi.png")
 	if err != nil {
 		panic(err)
