@@ -15,12 +15,17 @@ type State struct {
 	loc2 int
 }
 
+func (state *State) toIndex() int {
+	return state.loc1*(maxCars+1) + state.loc2
+}
+
 func getStates() []State {
 	numStates := (maxCars + 1) * (maxCars + 1)
 	states := make([](State), numStates)
 	for i := 0; i <= maxCars; i++ {
 		for j := 0; j <= maxCars; j++ {
-			states[i*(maxCars+1)+j] = State{i, j}
+			state := State{i, j}
+			states[state.toIndex()] = state
 		}
 	}
 	return states
@@ -101,17 +106,17 @@ func getP(states []State) map[StateAction]StateRewardProbs {
 	return p
 }
 
-func eval(states []State, p map[StateAction]StateRewardProbs, V map[State]float64, pi map[State]int, theta float64) {
+func eval(states []State, p map[StateAction]StateRewardProbs, V []float64, pi []int, theta float64) {
 	for delta := 0.0; delta < theta; {
 		delta = 0
 		for _, state := range states {
-			v := V[state]
-			a := pi[state]
+			v := V[state.toIndex()]
+			a := pi[state.toIndex()]
 			new := 0.0
 			for _, srp := range (p[StateAction{state, a}]) {
-				new += srp.prob * (srp.r + gamma*V[srp.s])
+				new += srp.prob * (srp.r + gamma*V[srp.s.toIndex()])
 			}
-			V[state] = new
+			V[state.toIndex()] = new
 			possibleDelta := math.Abs(v - new)
 			if possibleDelta > delta {
 				delta = possibleDelta
@@ -120,29 +125,28 @@ func eval(states []State, p map[StateAction]StateRewardProbs, V map[State]float6
 	}
 }
 
-func improve(states []State, p map[StateAction]StateRewardProbs, V map[State]float64, pi map[State]int) bool {
+func improve(states []State, p map[StateAction]StateRewardProbs, V []float64, pi []int) bool {
 	policyStable := true
 	for _, state := range states {
-		oldAction := pi[state]
+		oldAction := pi[state.toIndex()]
 		oldActionValue := 0.0
 		for _, srp := range (p[StateAction{state, oldAction}]) {
-			oldActionValue += srp.prob * (srp.r + gamma*V[srp.s])
+			oldActionValue += srp.prob * (srp.r + gamma*V[srp.s.toIndex()])
 		}
 		actions := state.getActions()
 		max := oldActionValue
 		argmax := oldAction
 		for _, a := range actions {
 			actionValue := 0.0
-
 			for _, srp := range (p[StateAction{state, a}]) {
-				actionValue += srp.prob * (srp.r + gamma*V[srp.s])
+				actionValue += srp.prob * (srp.r + gamma*V[srp.s.toIndex()])
 			}
 			if actionValue > max {
 				max = actionValue
 				argmax = a
 			}
 		}
-		pi[state] = argmax
+		pi[state.toIndex()] = argmax
 		if oldAction != argmax {
 			policyStable = false
 		}
@@ -153,8 +157,8 @@ func improve(states []State, p map[StateAction]StateRewardProbs, V map[State]flo
 func main() {
 	states := getStates()
 	p := getP(states)
-	V := make(map[State]float64, len(states))
-	pi := make(map[State]int, len(states))
+	V := make([]float64, len(states))
+	pi := make([]int, len(states))
 	policyStable := false
 	for !policyStable {
 		eval(states, p, V, pi, theta)
