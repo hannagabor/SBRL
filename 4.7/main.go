@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"gonum.org/v1/gonum/stat/distuv"
 	"gonum.org/v1/plot"
 	"gonum.org/v1/plot/plotter"
@@ -82,7 +83,18 @@ func getP(states []State) map[StateAction]StateRewardProbs {
 		for _, a := range actions {
 			loc1 := s.loc1 - a
 			loc2 := s.loc2 + a
-			reward := -2 * math.Abs(float64(a))
+			var reward float64
+			if a > 0 {
+				reward = -2 * float64(a-1)
+			} else {
+				reward = 2 * float64(a)
+			}
+			if loc1 > 10 {
+				reward -= 4
+			}
+			if loc2 > 10 {
+				reward -= 4
+			}
 			for rent1 := 0; rent1 <= loc1; rent1++ {
 				loc1AfterRent := loc1 - rent1
 				rent1Prob := cutProb(rent1Dist, rent1, loc1)
@@ -223,6 +235,21 @@ func makePlot(states []State, pi []int) {
 	}
 }
 
+func prettyPrint(pi []int) {
+	for i := maxCars; i >= 0; i-- {
+		for j := 0; j <= maxCars; j++ {
+			s := State{i, j}
+			action := pi[s.toIndex()]
+			if action >= 0 {
+				fmt.Printf(" %v", action)
+			} else {
+				fmt.Print(action)
+			}
+		}
+		fmt.Println()
+	}
+}
+
 func main() {
 	states := getStates()
 	p := getP(states)
@@ -234,4 +261,5 @@ func main() {
 		policyStable = improve(states, p, V, pi)
 	}
 	makePlot(states, pi)
+	prettyPrint(pi)
 }
