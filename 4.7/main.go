@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gonum.org/v1/gonum/stat/distuv"
 	"gonum.org/v1/plot"
+	"gonum.org/v1/plot/palette"
 	"gonum.org/v1/plot/plotter"
 	"math"
 	"strconv"
@@ -207,7 +208,8 @@ func makePlot(states []State, pi []int) {
 	for i := -5.0; i < 6; i++ {
 		labels = append(labels, i)
 	}
-	contour := plotter.NewContour(plottable, labels, nil)
+	pal := palette.Heat(11, 1)
+	contour := plotter.NewContour(plottable, labels, pal)
 	pl.Add(contour)
 	labelsMap := make(map[int]plotter.XY, 11)
 	for i, state := range states {
