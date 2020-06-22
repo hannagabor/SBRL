@@ -46,5 +46,18 @@
 
     It's the same as for $v_\pi$ on page 95, except for it starts from a state-action pair.
 
+  \item
+    \textit{The pseudocode for Monte Carlo ES is inefficient because, for each state–action
+    pair, it maintains a list of all returns and repeatedly calculates their mean. It would
+    be more efficient to use techniques similar to those explained in Section 2.4 to maintain
+    just the mean and a count (for each state–action pair) and update them incrementally.
+    Describe how the pseudocode would be altered to achieve this.}
+
+    We can get rid of $Returns$ and introduce $VisitCounts$ that stores an integer
+    for each state-action pair. Instead of appending $G$, we would increase the
+    corresponding element in $VisitCount$ by one and update $Q(S_t, A_t)$ to
+    $(Q(S_t, A_t) \cdot (n - 1) + G)/ n$, where n is $VisitCount(S_t, A_t)$. 
+
+
 \end{enumerate}
 \end{document}
