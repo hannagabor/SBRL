@@ -1,0 +1,39 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, amsthm}
+% \usepackage{graphics, graphicx}
+\usepackage{hyperref}
+% \usepackage{algorithmic}
+% \DeclareMathOperator*{\argmax}{argmax}
+% \graphicspath{ {./4.7/} {./4.9/}}
+\pagestyle{empty}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+}
+
+\begin{document}
+\textbf{Chapter 5 solutions  \hfill Hanna Gábor}
+
+\begin{enumerate}
+  \item
+    \textit{Consider the diagrams on the right in Figure 5.1. Why does the estimated
+    value function jump up for the last two rows in the rear? Why does it drop off for the
+    whole last row on the left? Why are the frontmost values higher in the upper diagrams
+    than in the lower?}
+
+    In the last two rows we already have 20 or 21 points and we stick with it. We win if
+    the dealer goes bust or sticks before reaching 20, so we have a huge probability
+    of winning.
+
+    In the last row on the left, the dealer has an ace and that makes is easier to reach
+    a high score for the dealer. If he goes over 21 with counting the ace as 11,
+    he still has a chance with counting it as 1.
+
+    The frontmost values in the upper diagram are higher than in the lower, because
+    having a usable ace increases your chances, as mentioned above.
+
+
+\end{enumerate}
+\end{document}
