@@ -73,10 +73,21 @@
     \textit{What is the equation analogous to (5.6) for action values Q(s, a) instead of
     state values V(s), again given returns generated using b?}
 
-    \[
-    Q(s, a) \doteq \frac{\sum \limits_{t \in \mathcal{T}(s)} \rho_{t + 1:T(t) - 1}G_t}{
-    |\mathcal{T}(s)|}
-    \]
+    \[Q(s, a) \doteq \frac{\sum \limits_{t \in \mathcal{T}(s)} \rho_{t + 1:T(t) - 1}G_t}{
+    |\mathcal{T}(s)|}\]
+
+  \item
+    \textit{In learning curves such as those shown in Figure 5.3 error generally decreases
+    with training, as indeed happened for the ordinary importance-sampling method. But for
+    the weighted importance-sampling method error first increased and then decreased. Why
+    do you think this happened?}
+
+    With high probability, the importance sampling ratio will be $0$ for the trajectory
+    and thus the estimation will be $0$ for the first few steps. The first time we
+    choose a path that meets the target policy, we will win or lose with high probability,
+    so the estimated value will be $1$ or $-1$ until the next time we choose such a path.
+    Altogether, after the initial zero estimations, we will most probably start with an
+    estimation of $1$ or $-1$, and will maintain that estimation for some time.
 
 \end{enumerate}
 \end{document}
