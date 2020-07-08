@@ -69,5 +69,14 @@
     first-visit estimation of the value of the nonterminal state is $10$, the every-visit
     estimation is $(10 + 9 + ... + 1)/9 = 5.5$.
 
+  \item
+    \textit{What is the equation analogous to (5.6) for action values Q(s, a) instead of
+    state values V(s), again given returns generated using b?}
+
+    \[
+    Q(s, a) \doteq \frac{\sum \limits_{t \in \mathcal{T}(s)} \rho_{t + 1:T(t) - 1}G_t}{
+    |\mathcal{T}(s)|}
+    \]
+
 \end{enumerate}
 \end{document}
