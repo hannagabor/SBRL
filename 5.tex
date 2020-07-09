@@ -148,5 +148,14 @@
       &= \frac{1}{C_n} \left( W_n G_n + C_n V_n  - W_n V_n\right)\\
       &= V_n + \frac{W_n}{C_n} (G_n - V_n)\\
     \end{align*}
+
+  \item
+    \textit{In the boxed algorithm for off-policy MC control, you may have been
+    expecting the W update to have involved the importance-sampling ratio
+    $\frac{\pi(A_t|S_t)}{b(At|St)}$, but instead it involves $\frac{1}{b(A_t|S_t)}$.
+    Why is this nevertheless correct?}
+
+    $\pi$ is deterministic, so $\pi(A_t |S_t)$ is either $0$ or $1$. We quit the inner loop
+    if it is $0$, so if the update happens, then $\pi(A_t |S_t) = 1$.
 \end{enumerate}
 \end{document}
