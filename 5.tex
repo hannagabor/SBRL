@@ -113,27 +113,40 @@
     use the incremental implementation for sample averages described in Section 2.4.}
     \begin{algorithm}
       \caption{Incremental implementation of first-visit MC policy evaluation}
-    \begin{algorithmic}
-      \STATE Input: a policy $\pi$ to be evaluated
-      \STATE
-      \STATE Initialize:
-      \STATE $V(s) \in \mathbb{R}$, arbitrarily, for all $s \in S$
-      \STATE $Seen(s) \leftarrow 0$, for all $s \in S$
-      \STATE
-      \WHILE {true}
-      \STATE Generate an episode following $\pi: S_0, A_0, R_1, S_1, \dots, R_T$
-      \STATE $G \leftarrow 0$
-      \FOR {$t = T - 1, T - 2, \dots, 0$}
-      \STATE $G \leftarrow \gamma G_t + R_{t + 1}$
-      \IF {$S_t$ does not appear in $S_0, \dots, S_{t - 1}$}
-      \STATE $Seen(S_t) \leftarrow Seen(S_t) + 1$
-      \STATE $n \leftarrow Seen(S_t)$
-      \STATE $V(S_t) \leftarrow \frac{(n - 1) V(S_t) + G}{n}$
-      \ENDIF
-      \ENDFOR
-      \ENDWHILE
-    \end{algorithmic}
-  \end{algorithm}
+      \begin{algorithmic}
+        \STATE Input: a policy $\pi$ to be evaluated
+        \STATE
+        \STATE Initialize:
+        \STATE $V(s) \in \mathbb{R}$, arbitrarily, for all $s \in S$
+        \STATE $Seen(s) \leftarrow 0$, for all $s \in S$
+        \STATE
+        \WHILE {true}
+        \STATE Generate an episode following $\pi: S_0, A_0, R_1, S_1, \dots, R_T$
+        \STATE $G \leftarrow 0$
+        \FOR {$t = T - 1, T - 2, \dots, 0$}
+        \STATE $G \leftarrow \gamma G_t + R_{t + 1}$
+        \IF {$S_t$ does not appear in $S_0, \dots, S_{t - 1}$}
+        \STATE $Seen(S_t) \leftarrow Seen(S_t) + 1$
+        \STATE $n \leftarrow Seen(S_t)$
+        \STATE $V(S_t) \leftarrow \frac{(n - 1) V(S_t) + G}{n}$
+        \ENDIF
+        \ENDFOR
+        \ENDWHILE
+      \end{algorithmic}
+    \end{algorithm}
 
+  \newpage
+  \item
+    \textit{Derive the weighted-average update rule (5.8) from (5.7). Follow the
+    pattern of the derivation of the unweighted rule (2.3).}
+
+    \begin{align*}
+      V_{n + 1} &= \frac{\sum\limits_{k = 1}^n W_k G_k}{C_n}
+      = \frac{1}{C_n} \left( W_n G_n + \sum\limits_{k = 1}^{n - 1} W_k G_k\right)\\
+      &= \frac{1}{C_n} \left( W_n G_n + C_{n - 1} \frac{1}{C_{n - 1}} \sum\limits_{k = 1}^{n - 1} W_k G_k \right)\\
+      &= \frac{1}{C_n} \left( W_n G_n + C_{n - 1} V_n \right)\\
+      &= \frac{1}{C_n} \left( W_n G_n + C_n V_n  - W_n V_n\right)\\
+      &= V_n + \frac{W_n}{C_n} (G_n - V_n)\\
+    \end{align*}
 \end{enumerate}
 \end{document}
