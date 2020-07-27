@@ -157,5 +157,29 @@
 
     $\pi$ is deterministic, so $\pi(A_t |S_t)$ is either $0$ or $1$. We quit the inner loop
     if it is $0$, so if the update happens, then $\pi(A_t |S_t) = 1$.
+
+  \item
+    \textit{Racetrack (programming)}
+
+    I tried Monte Carlo control with the $\epsilon$-soft greedy policy as behavior policy, but it did not
+    work out (yet). Anyway, the code can be found
+    \href{https://github.com/hannagabor/SBRL/blob/master/5_12_racetrack.ipynb}{here}.
+
+  \item
+    \textit{Show the steps to derive (5.14) from (5.12).}
+
+    \begin{align*}
+      \mathbb{E}(\rho_{t: T - 1} R_{t + 1})
+      &= \mathbb{E}\left( \prod\limits_{k = t}^{T - 1} \frac{\pi(A_k | S_k)}{b(A_k | S_k)} R_{t + 1}\right) \\
+      &= \sum\limits_{a_t, \dots a_{T - 1}} \left(\prod\limits_{k = t}^{T - 1} b(a_k | S_k) \prod\limits_{l = t}^{T - 1} \frac{\pi(a_l | S_l)}{b(a_l | S_l)} r(S_t, a_t) \right) \\
+      &= \sum\limits_{a_t, \dots a_{T - 1}} \left(\prod\limits_{k = t}^{T - 1} b(a_k | S_k) \frac{\pi(a_k | S_k)}{b(a_k | S_k)} r(S_t, a_t) \right) \\
+      &= \sum\limits_{a_t, \dots a_{T - 1}} \left(\prod\limits_{k = t}^{T - 1} \pi(a_k | S_k) r(S_t, a_t) \right) \\
+      &= \sum\limits_{a_t, \dots a_{T - 1}} \left( \pi(a_t | S_t) r(S_t, a_t) \prod\limits_{k = t + 1}^{T - 1} \pi(a_k | S_k) \right) \\
+      &= \sum\limits_{a_t} \pi(a_t | S_t) r(S_t, a_t) \sum\limits_{a_{t + 1}, \dots a_{T - 1}} \prod\limits_{k = t + 1}^{T - 1} \pi(a_k | S_k) \\
+      &= \sum\limits_{a_t} \pi(a_t | S_t) r(S_t, a_t) \cdot 1 = \\
+      &= \sum\limits_{a_t} b(a_t | S_t) \frac{\pi(a_t | S_t)}{b(a_t | S_t)} r(S_t, a_t) = \\
+      &= \mathbb{E}(\rho_{t:t}R_{t + 1})\\
+    \end{align*}
+
 \end{enumerate}
 \end{document}
