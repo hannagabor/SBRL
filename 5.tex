@@ -2,11 +2,9 @@
 \usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb, amsmath, amsthm}
-% \usepackage{graphics, graphicx}
 \usepackage{hyperref}
 \usepackage{algorithmic, algorithm}
-% \DeclareMathOperator*{\argmax}{argmax}
-% \graphicspath{ {./4.7/} {./4.9/}}
+\DeclareMathOperator*{\argmax}{argmax}
 \pagestyle{empty}
 \hypersetup{
   colorlinks   = true, %Colours links instead of ugly boxes
@@ -180,6 +178,45 @@
       &= \sum\limits_{a_t} b(a_t | S_t) \frac{\pi(a_t | S_t)}{b(a_t | S_t)} r(S_t, a_t) = \\
       &= \mathbb{E}(\rho_{t:t}R_{t + 1})\\
     \end{align*}
+
+  \item
+    \textit{Modify the algorithm for off-policy Monte Carlo control (page 111) to use
+    the idea of the truncated weighted-average estimator (5.10). Note that you will first need
+    to convert this equation to action values.}
+
+    \begin{algorithm}
+      \caption{Off-policy MC control using truncated weighted-average estimator}
+      \begin{algorithmic}
+        \STATE Initialize:
+        \STATE $Q(s, a) \in \mathbb{R}$ arbitrarily
+        \STATE $C(s, a) \leftarrow 0$, for all $s \in S$
+        \STATE $\pi(s) \leftarrow \argmax_aQ(s, a)$
+        \STATE
+        \WHILE {true}
+        \STATE $b \leftarrow$ any soft policy
+        \STATE Generate an episode following $\pi: S_0, A_0, R_1, S_1, \dots, R_T$
+        \STATE $G1 \leftarrow 0$
+        \STATE $G2 \leftarrow R_T$
+        \STATE $W1 \leftarrow 0$
+        \STATE $W2 \leftarrow 1$
+        \FOR {$t = T - 1, T - 2, \dots, 0$}
+        \STATE $W \leftarrow (1 - \gamma) W1 + W2$
+        \STATE $C(S_t, A_t) \leftarrow C(S_t, A_t) + W$
+        \STATE $G \leftarrow (1 - \gamma)G1 + W2 \cdot G2$
+        \STATE $Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \frac{W}{C(S_t, A_t)}(G - Q(S_t, A_t))$
+        \STATE $\pi(S_t) \leftarrow \argmax_aQ(S_t, a)$
+        \IF {$A_t \neq \pi(S_t)$}
+        \STATE exit inner loop, proceed to next episode
+        \ENDIF
+        \STATE $ratio \leftarrow \frac{1}{b(A_t|S_t)}$
+        \STATE $G_1 \leftarrow \gamma \cdot ratio \cdot G1 + R_t$
+        \STATE $G_2 \leftarrow G_2 + R_t$
+        \STATE $W1 \leftarrow 1 + ratio \cdot W_1$
+        \STATE $W2 \leftarrow \gamma \cdot ratio \cdot W_2$
+        \ENDFOR
+        \ENDWHILE
+      \end{algorithmic}
+    \end{algorithm}
 
 \end{enumerate}
 \end{document}
