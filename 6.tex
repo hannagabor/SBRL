@@ -107,5 +107,17 @@ If we have started with a higher initial value for $D$ and $E$ than the true val
 and a lower initial value for $A$ and $B$, then I wouldn't expect to see this increase
 in the error.
 
+\item
+\textit{In Example 6.2 we stated that the true values for the random walk example are
+$\frac{1}{6}, \frac{2}{6}, \frac{3}{6}, \frac{4}{6}, \frac{5}{6}$, for states A through E.
+Describe at least two different ways that these could have been computed. Which would
+you guess we actually used? Why?}
+
+A fast method is the following. $v(S) = 0.5 \cdot v(S_l) + 0.5 \cdot v(S_r)$, where $S_l$ is the
+left neighbor of $S$ and $S_r$ is the right neighbor of $S$. This means that $v(S) - v(S_l) = v(S_r) - v(S)$. Hence, the numbers $0 \le v(A) \le v(B) \le v(C) \le v(D) \le v(E) \le 1$ are equidistant, so
+each difference is $\frac{1}{6}$.
+
+A slightly different method is to write down these five equations and solve the resulting
+linear equation system.
 \end{enumerate}
 \end{document}
