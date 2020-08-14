@@ -119,5 +119,15 @@ each difference is $\frac{1}{6}$.
 
 A slightly different method is to write down these five equations and solve the resulting
 linear equation system.
+
+\item
+\textit{Design an off-policy version of the TD(0) update that can be used with
+arbitrary target policy $\pi$ and covering behavior policy b, using at each step t the importance
+sampling ratio $\rho_{t:t}$ (5.3).}
+
+I would use the update rule:
+\[V(S_t) \leftarrow V(S_t) + \alpha \rho_{t:t} (R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t)).\]
+
+
 \end{enumerate}
 \end{document}
