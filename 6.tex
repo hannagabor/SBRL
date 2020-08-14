@@ -90,120 +90,22 @@ $\alpha$ value might reach an even lower error, but the $\alpha = 0.5$ case is a
 \end{itemize}
 
 \item
-For now, let us treat the terminal points as states with values $0$ and $1$,
-respectively. Let all the rewards be $0$. These changes together don't change
-the updates, but make the notation a bit easier. For a state $S \neq C$ let
-$S^i$ denote the neighbor of $C$ which is closer to $C$ and $S^o$ denote the
-neighbor of $S$ which is further from $C$. Let $V_t(S)$ denote the estimate of
-$V(S)$ in time step $t$.
+\textit{In the right graph of the random walk example, the RMS error of the
+TD method seems to go down and then up again, particularly at high $\alpha$’s. What could
+have caused this? Do you think this always occurs, or might it be a function of how the
+approximate value function was initialized?}
 
-For state $C$, the expected estimated value is $0.5$ by symmetry. We will prove
-the following theorem.
-\begin{thm}\label{thm}
-  Let $S$ be any state in $\{A, B, D, E\}$. Suppose we are in state $S$ in
-  time step $t$. Suppose also that
-  \[(1 - \alpha) |V_t(S_t) - V_{t - 2} (S^i)| < |V_{t - 2}(S^o)) - V_t(S_t)|.\] Then
-  $|\mathbb{E}(V_{t + 1}(S_t)) - V_{t}(S^o)| < |V_t(S_t) - V_{t}(S^o)|$.
-\end{thm}
+I think what causes this is the following. Suppose our current estimates are the real values and e.g.
+we reach state $E$. Depending on our next step, $V_t(E)$ might take a small step in
+the direction of $V_{t - 1}(D)$ or $1$. But you can only reach $E$ from $D$,
+so $V_t(D)$ will be bigger than $V_{t - 1}(D)$. This means that the expected value
+of $V_{t + 1}(E)$ will be closer to $1$ than to $V_{t - 1}(D)$. This means that the
+equilibrium for $V_t(E)$ is a bit bigger than the real $V(E)$. The smaller
+the $\alpha$ is, the closer the equilibrium is to the real value.
 
-For proving the theorem we need a few lemmas.
-
-\begin{lemma}
-  If all the state values are initialized to $0.5$, then
-  \[0 \le V_t(A) \le V_t(B) \le V_t(C) \le V_t(D) \le V_t(E) \le 1\] holds throughout the
-  run of the TD algorithm.
-\end{lemma}
-\begin{proof}
-  The proof goes by induction on the number of steps. The statement clearly holds
-  in the beginning. Suppose you are in state $S$ at time $t$ and take a step
-  to the right, arriving to $S'$. Then $V_{t + 1}(S)$ equals to
-  \[(1 - \alpha) V_t(S) + \alpha V_t(S') \le (1 - \alpha) V_t(S') + \alpha V_t(S') = V_t(S') = V_{t + 1}(S').\]
-  If you step to the left, then
-  \[(1 - \alpha) V_t(S) + \alpha V_t(S') \ge (1 - \alpha) V_t(S') + \alpha V_t(S') = V_t(S') = V_{t + 1}(S').\]
-\end{proof}
-
-\begin{lemma}
-  Let $S$ be any state in $\{A, B, D, E\}$. Suppose we are in state $S$ in
-  time step $t$ and the previous state was $S^i$. Then
-  $|\mathbb{E}(V_{t + 1}(S_t)) - V_{t}(S^o)| < |V_t(S_t) - V_{t}(S^o)|$ if and only if
-  \[
-  (1 - \alpha) |V_t(S_t) - V_{t - 1} (S^i)| < |V_t(S^o)) - V_t(S_t)|.
-  \]
-\end{lemma}
-\begin{proof}
-  Using the update rule $ V_t(S^i) = (1 - \alpha) V_{t - 1}(S^i) + \alpha V_{t - 1}(S_t)$
-  and $V_{t - 1}(S_t) = V_t(S_t)$ the following holds.
-  \begin{align*}
-  \mathbb{E}(V_{t + 1}(S_t))
-  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S^i) - V_t(S_t)\big) + \big(V_t(S^o) - V_t(S_t)\big)\Big)\\
-  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big((1 - \alpha) V_{t - 1}(S^i) +
-  \alpha V_{t - 1}(S_t) - V_t(S_t)\big)\\
-  & + \big(V_t(S^o) - V_t(S_t)\big)\Big)\\
-  & = V_t(S_t) + \frac{\alpha}{2} \Big(((1 - \alpha) \big(V_{t - 1}(S^i) - V_t(S_t)\big)\\
-  & + \big(V_t(S^o)) - V_t(S_t)\big)\Big)
-  \end{align*}
-  Hence
-  \[|\mathbb{E}(V_{t + 1}(S_t)) - V_{t}(S^o)| < |V_t(S_t) - V_{t}(S^o)|\]
-  holds if and only if
-  \[|(1 - \alpha) \big(V_{t - 1}(S^i) - V_{t}(S_t)\big)| < |V_t(S^o)) - V_t(S_t)|.\]
-\end{proof}
-
-Note that if $S_t \in \{A, E\}$, then $S_{t - 1} = S^i$.
-
-\begin{lemma}
-  Let $S$ be a state in $\{B, D\}$. Suppose we are in state $S$ in
-  time step $t$ and the previous state was $S^o$. Then
-  $|\mathbb{E}(V_{t + 1}(S_t)) - V_{t - 2}(S^o)| < |V_{t - 2}(S_t) - V_{t - 2}(S^o)|$
-  if and only if
-  \[
-  |V_{t - 2}(S_t) - V_{t - 2}(S^i)| <
-  ((1 - \alpha)^2 - \alpha + 2)|(V_{t - 2}(S^o) - V_{t - 2}(S_t))|
-  \]
-\end{lemma}
-\begin{proof}
-  First note that $S_{t - 2} = S_t$ and $S_{t - 1} = S^o$. We will use the update rules
-  $V_t(S^o) = (1 - \alpha) V_{t - 1}(S^o) + \alpha V_{t - 1}(S_t)$ and
-  $V_{t - 1}(S_t) = (1 - \alpha) V_{t - 2}(S_t) + \alpha V_{t - 2}(S^o)$.
-  \begin{align*}
-  \mathbb{E}(V_{t + 1}(S_t))
-%
-  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S^i) - V_t(S_t)\big) + \big(V_t(S^o) - V_t(S_t)\big)\Big)\\
-%
-  & = V_t(S_t) + \frac{\alpha}{2} \Big(\big(V_t(S^i) - V_t(S_t)\big)\\
-  & + \big((1 - \alpha) V_{t - 1}(S^o) + \alpha V_{t - 1}(S_t) - V_t(S_t)\big)\Big)\\
-%
-  & = V_{t - 1}(S_t) + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S^i) - V_{t - 1}(S_t)\big)\\
-  & + \big((1 - \alpha) (V_{t - 1}(S^o) - V_{t - 1}(S_t))\big)\Big)\\
-%
-  & = (1 - \alpha) V_{t - 2}(S_t) + \alpha V_{t - 2}(S^o) \\
-  & + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S^i)
-  - (1 - \alpha) V_{t - 2}(S_t) - \alpha V_{t - 2}(S^o)\big) \\
-  & + \big((1 - \alpha)(V_{t - 2}(S^o)
-  - (1 - \alpha) V_{t - 2}(S_t) - \alpha V_{t - 2}(S^o))\big)\Big)\\
-%
-  & = (1 - \alpha) V_{t - 2}(S_t) + \alpha V_{t - 2}(S^o) \\
-  & + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S^i) - V_{t - 2}(S_t)\big)
-  + \alpha\big(V_{t - 2}(S_t) - V_{t - 2}(S^o)\big)\\
-  & + \big((1 - \alpha)^2(V_{t - 2}(S^o) - V_{t - 2}(S_t))\big)\Big)\\
-%
-& = V_{t - 2}(S_t) + \frac{\alpha}{2} \Big(\big(V_{t - 2}(S^i) - V_{t - 2}(S_t)\big)\\
-& + \big(((1 - \alpha)^2 - \alpha + 2)(V_{t - 2}(S^o) - V_{t - 2}(S_t))\big)\Big)\\
-%
-  \end{align*}
-  Hence
-  \[|\mathbb{E}(V_{t + 1}(S_t)) - V_{t - 2}(S^o)| < |V_{t - 2}(S_t) - V_{t - 2}(S^o)|\]
-  holds if and only if
-  \[|V_{t - 2}(S^i) - V_{t - 2}(S_t)|
-  < ((1 - \alpha)^2 - \alpha + 2)|(V_{t - 2}(S^o) - V_{t - 2}(S_t))|
-  \]
-\end{proof}
-
-\begin{proof}[Proof of Theorem \ref{thm}]
-  $((1 - \alpha)^2 - \alpha + 2) = 3 - 3\alpha + \alpha^2 \le \frac{1}{1 - \alpha}$.
-  \[(3 - 3\alpha + \alpha^2)(1 - \alpha) \le 1\]
-  \[3 - 6\alpha - 2\alpha^2 + \alpha^3\]
-
-\end{proof}
+If we have started with a higher initial value for $D$ and $E$ than the true value
+and a lower initial value for $A$ and $B$, then I wouldn't expect to see this increase
+in the error.
 
 \end{enumerate}
 \end{document}
