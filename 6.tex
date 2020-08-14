@@ -12,6 +12,12 @@
 
 \begin{enumerate}
 \item
+\textit{If V changes during the episode, then (6.6) only holds approximately; what
+would the difference be between the two sides? Let $V_t$ denote the array of state values
+used at time t in the TD error (6.5) and in the TD update (6.2). Redo the derivation
+above to determine the additional amount that must be added to the sum of TD errors
+in order to equal the Monte Carlo error.}
+
 \begin{align*}
 G_t - V_t(S_t) & = R_{t + 1} + \gamma G_{t + 1} - V_t(S_t) + \gamma V_t(S_{t + 1}) -
 \gamma V_t(S_{t + 1}) + \gamma V_{t + 1}(S_{t + 1})\\
@@ -24,20 +30,46 @@ G_t - V_t(S_t) & = R_{t + 1} + \gamma G_{t + 1} - V_t(S_t) + \gamma V_t(S_{t + 1
 \end{align*}
 
 \item
-If I get lost a few times at the beginning, then I can see why TD updates can be better.
-When I get lost, only the first few states learn that it takes a long time for me to go home. After I reached the highway, the predictions won't change
-just because I don't know the way from the new office building to the highway.
+\textit{This is an exercise to help develop your intuition about why TD methods
+are often more efficient than Monte Carlo methods. Consider the driving home example
+and how it is addressed by TD and Monte Carlo methods. Can you imagine a scenario
+in which a TD update would be better on average than a Monte Carlo update? Give
+an example scenario—a description of past experience and a current state—in which
+you would expect the TD update to be better. Here’s a hint: Suppose you have lots
+of experience driving home from work. Then you move to a new building and a new
+parking lot (but you still enter the highway at the same place). Now you are starting
+to learn predictions for the new building. Can you see why TD updates are likely to be
+much better, at least initially, in this case? Might the same sort of thing happen in the
+original scenario?}
+
+I can't really see it.
+
+I have lots of experience, so the estimates that are made after I reached
+the highway are quite accurate, there will be only small updates for those.
+For the estimate before I reach the highway, the two update rules just give
+approximately the same. I can't see a big difference before that, either.
 
 \item
-The first episode must have terminated on the left with a reward of $-1$.
+\textit{From the results shown in the left graph of the random walk example it
+appears that the first episode results in a change in only V(A). What does this tell you
+about what happened on the first episode? Why was only the estimate for this one state
+changed? By exactly how much was it changed?}
+
+The first episode must have terminated on the left with a reward of $0$.
 
 The other state values didn't change because the error in those cases was\\
 $R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t) = 0 + 1 \cdot 0.5 - 0.5 = 0$.
 
-$v(A)$ changed by $\alpha (R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t)) = 0.1 * (-1 + 0 - 0.5) = -0.15$.
+$v(A)$ changed by $\alpha (R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t)) = 0.1 (0 + 0 - 0.5) = -0.05$.
 
 \item
-I don't think a wider range of $\alpha$ values would have an effect on the results.
+\textit{The specific results shown in the right graph of the random walk example
+are dependent on the value of the step-size parameter, $\alpha$. Do you think the conclusions
+about which algorithm is better would be affected if a wider range of $\alpha$ values were used?
+Is there a different, fixed value of $\alpha$ at which either algorithm would have performed
+significantly better than shown? Why or why not?}
+
+I don't think a wider range of $\alpha$ values would have a significant effect on the results.
 
 \begin{itemize}
 \item \textbf{Monte Carlo methods.}
@@ -45,12 +77,16 @@ The Monte Carlo version with $\alpha = 0.4$ starts to oscillate pretty fast and 
 seem to decrease. I expect a Monte Carlo method with a bigger $\alpha$ value to oscillate
 around an error level which is at least as high as the error in the $\alpha = 0.4$
 case. The smallest $\alpha$ for the MC method among the examples is $0.1$. That is
-the only MC method which we can't see to oscillate. This version does not achieve the
+the only MC method which we can't see oscillate. This version does not achieve the
 performance of the TD methods. A smaller $\alpha$ value would make the learning progress
-even slower. It's possible that the error with Monte Carlo update with $\alpha =<0.1$
-goes under the TD error eventually, so looking at more episodes might have an effect
-on the results.
+even slower. It's possible that the error using Monte Carlo update with $\alpha =<0.1$
+goes under the TD error eventually, but it would still be pretty slow.
 
+\item \textbf{TD methods.}
+The TD version with $\alpha = 1.5$ plateaued fast at a relatively high error. I expect
+bigger $\alpha$ values to make the convergence faster, but plateaue at a higher value.
+The version with $\alpha = 0.5$ is the best among all shown algorithms. A TD method with a smaller
+$\alpha$ value might reach an even lower error, but the $\alpha = 0.5$ case is already pretty good.
 \end{itemize}
 
 \item
