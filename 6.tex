@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb, amsmath, amsthm}
 \usepackage{graphics, graphicx}
+\graphicspath{{./6.9/}}
 \pagestyle{empty}
 \newtheorem{lemma}{Lemma}
 \newtheorem{thm}{Theorem}
@@ -141,6 +142,26 @@ It's basically the same, we just change $V(S_t)$ to $Q(S_t, A_t)$:
   &= \delta_t + \gamma (G_{t + 1} - Q(S_{t + 1}, A_{t + 1}) = \dots \\
   &= \sum\limits_{k = t}^{T - 1} \gamma^{k - t} \delta_k
 \end{align*}
+
+\item
+\textit{Windy Gridworld with King’s Moves. (Programming.) Re-solve the windy
+gridworld assuming eight possible actions, including the diagonal moves, rather than four.
+How much better can you do with the extra actions? Can you do even better by including
+a ninth action that causes no movement at all other than that caused by the wind?}
+
+The ninth action doesn't help, the minimum number of steps is also available with
+eight options. As there are more possibilities, it makes the learning a bit slower.
+
+\begin{center}
+  \includegraphics[scale=0.8]{must_move_plot}
+  \includegraphics[scale=0.8]{no_movement_plot}
+\end{center}
+
+Example trajectory:
+
+\begin{center}
+\includegraphics[scale=0.8]{trajectory}
+\end{center}
 
 \end{enumerate}
 \end{document}
