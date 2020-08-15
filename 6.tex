@@ -128,6 +128,19 @@ sampling ratio $\rho_{t:t}$ (5.3).}
 I would use the update rule:
 \[V(S_t) \leftarrow V(S_t) + \alpha \rho_{t:t} (R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t)).\]
 
+\item
+\textit{Show that an action-value version of (6.6) holds for the action-value form
+of the TD error $\delta_t = R_{t+1} + Q(S_{t+1}, A_{t+1}) - Q(S_t, A_t)$, again
+assuming that the values don’t change from step to step.}
+
+It's basically the same, we just change $V(S_t)$ to $Q(S_t, A_t)$:
+
+\begin{align*}
+  G_t - Q(S_t, A_t) &= R_{t + 1} + \gamma G_{t + 1} - Q(S_t, A_t)
+  + \gamma Q(S_{t + 1}, A_{t + 1}) - \gamma Q(S_{t + 1}, A_{t + 1})\\
+  &= \delta_t + \gamma (G_{t + 1} - Q(S_{t + 1}, A_{t + 1}) = \dots \\
+  &= \sum\limits_{k = t}^{T - 1} \gamma^{k - t} \delta_k
+\end{align*}
 
 \end{enumerate}
 \end{document}
