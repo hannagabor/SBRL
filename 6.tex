@@ -189,5 +189,21 @@ An example trajectory:
 \includegraphics[scale=0.8]{stochastic_trajectory}
 \end{center}
 
+\item
+\textit{Why is Q-learning considered an off-policy control method?}
+
+$Q$ reflects the values for the greedy policy based on the current estimates, regardless of the
+policy that generates the trajectory.
+
+\item
+\textit{Suppose action selection is greedy. Is Q-learning then exactly the same
+algorithm as Sarsa? Will they make exactly the same action selections and weight
+updates?}
+
+Almost. An exception is when $S_t$ equals $S_{t + 1}$. It might happen
+that before the update $Q(S_t, A_t) = \max_aQ(S_t, a)$ and
+after the update $Q(S_t, A_t) < Q(S_t, a')$. Then we will choose $A_{t + 1} = A_t$ for
+Sarsa and choose $A_{t + 1} = a'$ for Q-learning.
+
 \end{enumerate}
 \end{document}
