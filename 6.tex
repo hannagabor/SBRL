@@ -205,5 +205,14 @@ that before the update $Q(S_t, A_t) = \max_aQ(S_t, a)$ and
 after the update $Q(S_t, A_t) < Q(S_t, a')$. Then we will choose $A_{t + 1} = A_t$ for
 Sarsa and choose $A_{t + 1} = a'$ for Q-learning.
 
+\item
+\textit{What are the update equations for Double Expected Sarsa with an
+$\epsilon$-greedy target policy?}
+
+Let $\pi_1$ be the $\epsilon$-greedy policy with regard to $Q_1$. Then one of
+the Double Expected Sarsa updates is:
+
+$Q_1(S_t, A_t) \leftarrow Q_1(S_t, A_t) + \alpha(R_{t + 1} + \gamma \sum\limits_a \pi_1(a | S_{t + 1 })Q_2(S_{t + 1}, a) - Q_1(S_t, A_t))$
+
 \end{enumerate}
 \end{document}
