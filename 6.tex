@@ -214,5 +214,18 @@ the Double Expected Sarsa updates is:
 
 $Q_1(S_t, A_t) \leftarrow Q_1(S_t, A_t) + \alpha(R_{t + 1} + \gamma \sum\limits_a \pi_1(a | S_{t + 1 })Q_2(S_{t + 1}, a) - Q_1(S_t, A_t))$
 
+\item
+\textit{Describe how the task of Jack’s Car Rental (Example 4.2) could be
+reformulated in terms of afterstates. Why, in terms of this specific task, would such a
+reformulation be likely to speed convergence?}
+
+Instead of estimating the value for pairs like (state in the end of the day, action),
+we could estimate values for "afterstates", that is, for the state after the relocation
+happens.
+
+This would be beneficial, as we can arrive to the same afterstate from many different
+states by adjusting the number of cars we transfer from one location to the other.
+With estimates for afterstates, if we arrive to a specific afterstate, we immediately get an update
+for all the states that can appear just before the afterstate.
 \end{enumerate}
 \end{document}
