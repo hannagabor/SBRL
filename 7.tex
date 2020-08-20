@@ -1,0 +1,32 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage{hyperref}
+\usepackage{algorithmic, algorithm}
+\DeclareMathOperator*{\argmax}{argmax}
+\pagestyle{empty}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+}
+
+\begin{document}
+\textbf{Chapter 7 solutions  \hfill Hanna Gábor}
+
+\begin{enumerate}
+  \item
+    \textit{In Chapter 6 we noted that the Monte Carlo error can be written as the
+sum of TD errors (6.6) if the value estimates don’t change from step to step. Show that
+the n-step error used in (7.2) can also be written as a sum TD errors (again if the value
+estimates don’t change) generalizing the earlier result.}
+
+\begin{align*}
+G_{t: t + n} - V(S_t) & = R_{t + 1} + \gamma G_{t + 1: t + n} - V(S_t) + \gamma V(S_{t + 1}) - \gamma V(S_{t + 1})\\
+& = \delta_t + \gamma(G_{t + 1: t + n} - V(S_{t + 1})) \\
+& = \delta_t + \gamma \delta_{t + 1} + \gamma^2 \delta_{t + 2} + \dots + \gamma^{n - 1} \delta_{t + n - 1} + \gamma^{n}V(S_{t + n}) - \gamma^n V(S_{t + n}) \\
+& = \sum\limits_{k = t}^{t + n - 1} \gamma^{k - t} \delta_k
+\end{align*}
+
+\end{enumerate}
+\end{document}
