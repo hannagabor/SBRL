@@ -4,6 +4,9 @@
 \usepackage{amssymb, amsmath, amsthm}
 \usepackage{hyperref}
 \usepackage{algorithmic, algorithm}
+\usepackage{graphics, graphicx}
+\graphicspath{ {./7.2/} }
+
 \DeclareMathOperator*{\argmax}{argmax}
 \pagestyle{empty}
 \hypersetup{
@@ -29,7 +32,7 @@
     \end{align*}
 
   \item
-    \textit{(Programming.) With an n-step method, the value estimates do change from
+    \textit{Programming. With an n-step method, the value estimates do change from
     step to step, so an algorithm that used the sum of TD errors (see previous exercise) in
     place of the error in (7.2) would actually be a slightly different algorithm. Would it be a
     better algorithm or a worse one? Devise and program a small experiment to answer this
@@ -39,8 +42,21 @@
     $\{S_{t + 1}, \dots S_{t + n}\}$ between time steps $t$ and $t + n$. Because of this reason,
     I would like to try the algorithms on a problem where we may return to the same
     state shortly. My expectation is that the $n$-step update works better, because it uses
-    more recent estimates. Let's try it on a random walk example, like in Example 6.2.
-    
+    a more recent estimation of $V(S_t)$. It does not use estimations of $V_(S_{t + i})$
+    (for $i = 1 \dots < n$) either, but I am not sure if it is for the better or the worse. Let's try it on a random walk example, like in Example 6.2.
+
+    The code can be found at \url{https://github.com/hannagabor/SBRL/blob/master/7.2/random_walks_td.ipynb}.
+
+    The results show that if alpha is bigger, then the TD-error update is worse than the original n-step method. If alpha is small enough, then there is no
+    difference. (At least on this problem.)
+    \begin{center}
+    \includegraphics[scale=0.45]{0.1}
+    \includegraphics[scale=0.45]{0.05}
+    \\
+    \includegraphics[scale=0.45]{0.01}
+    \includegraphics[scale=0.45]{0.005}
+    \end{center}
+
 
 \end{enumerate}
 \end{document}
