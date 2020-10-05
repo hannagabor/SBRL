@@ -91,5 +91,68 @@
     \gamma^{k - t}(R_{k + 1} + \gamma Q_k(S_{k + 1}, A_{k + 1}) - Q_{k - 1}(S_k, A_k))
     \end{align*}
 
+  \item
+    \textit{Write the pseudocode for the off-policy state-value prediction algorithm
+    described above.}
+
+    The update rule we want to use is the following.
+
+    \begin{align*}
+      V_{t + n}(S_t) &= V_{t + n - 1}(S_t) + \alpha \Big( \sum\limits_{k = t}^{t + n - 1}
+      \gamma^{k - t} \big(\rho_{t:k} R_{k + 1} + \rho_{t: k - 1}
+      (1 - \rho_k) V_{t + n - 1} (S_k)\big)\\
+      &+ \gamma^n \rho_{t: t + n}V_{t + n - 1}(S_{t + n})
+      - V_{t + n - 1}(S_t)\Big)
+    \end{align*}
+
+    \begin{algorithm}
+      \caption{Per-decision off-policy state-value prediction algorithm}
+      \begin{algorithmic}
+        \STATE Inputs: a target policy $\pi$ and a behavior policy $b$ such that
+        \STATE $b(a|s) > 0$ if $\pi(a|s) > 0$.
+        \STATE Initialize $V(s) \in \mathbb{R}$, arbitrarily, for all $s \in S$.
+        \STATE Algorithm parameters: steps size $\alpha \in (0, 1]$, a positive
+        integer $n$.
+        \STATE All store and access operations (for $S_t$ and $R_t$) can take their index mod $n + 1$.
+        \FOR {each episode}
+          \STATE Initialize and store $S_0$ non-terminal state.
+          \STATE $T \leftarrow \infty$
+          \FOR {$t = 0, 1, 2 \dots$}
+            \IF {$t < T$}
+              \STATE Take an action according to $b$.
+              \STATE Observe and store the next reward as $R_{t + 1}$ and the
+              next state as $S_{t + 1}$.
+              \IF {$S_{t + 1}$ is terminal}
+                \STATE {$T = t + 1$}
+              \ENDIF
+            \ENDIF
+            \STATE {$\tau = t - n + 1$ ($\tau$ is the time whose state's estimate
+            is being updated.)}
+            \IF {$\tau \ge 0$}
+              \STATE {$G \leftarrow 0$}
+              \STATE {$\rho \leftarrow 1$}
+              \FOR {$k = \tau, \dots, min(\tau + n - 1, T - 1)$}
+                \STATE {$\rho_k = \frac{\pi(A_k|S_k)}{b(A_k|S_k)}$}
+                \STATE {$G \leftarrow G + \gamma ^ {k - \tau}\rho
+                (1 - \rho_k)V(S_k)$}
+                \STATE {$\rho \leftarrow \rho \cdot \rho_k$}
+                \STATE {$G \leftarrow G + \gamma ^ {k - \tau} \rho R_{k + 1}$}
+              \ENDFOR
+              \IF {$\tau + n < T$}
+                \STATE {$\rho \leftarrow \rho \cdot
+                \frac{\pi(A_{\tau + n}|S_{\tau + n})}
+                {b(A_{\tau + n}|S_{\tau + n})}$}
+                \STATE {$G \leftarrow G + \gamma^n V(S_{\tau + n})$}
+              \ENDIF
+              \STATE $V(S_\tau) \leftarrow V(S_\tau) + \alpha(G - V(S_\tau))$
+            \ENDIF
+            \IF {$\tau = T - 1$}
+              \STATE {break}
+            \ENDIF
+            \ENDFOR
+        \ENDFOR
+      \end{algorithmic}
+    \end{algorithm}
+
 \end{enumerate}
 \end{document}
