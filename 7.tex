@@ -109,7 +109,7 @@
     See the algorithm on the next page.
 
     \begin{algorithm}
-      \caption{Per-decision off-policy state-value prediction algorithm}
+      \caption{Off-policy state-value prediction algorithm}
       \begin{algorithmic}
         \STATE Inputs: a target policy $\pi$ and a behavior policy $b$ such that
         \STATE $b(a|s) > 0$ if $\pi(a|s) > 0$.
@@ -174,6 +174,62 @@
 
     The left-hand side is equal to $\sum\limits_a \pi(a | S_{t + 1})Q_{h - 1}(S_{t + 1}, a)$ and that is the definition of $\bar{V}_{h - 1}(S_{t + 1})$.
 
+  \item
+    \textit{Write the pseudocode for the off-policy action-value prediction algorithm
+    described immediately above. Pay particular attention to the termination
+    conditions for the recursion upon hitting the horizon or the end of episode.}
+
+    See Algorithm 2.
+
+    \begin{algorithm}
+      \caption{Off-policy action-value prediction algorithm}
+      \begin{algorithmic}
+        \STATE Inputs: a target policy $\pi$ and a behavior policy $b$ such that
+        \STATE $b(a|s) > 0$ if $\pi(a|s) > 0$.
+        \STATE Initialize $Q(s, a) \in \mathbb{R}$, arbitrarily, for all
+        $s \in \mathbb{S}$, $a \in \mathbb{A}$.
+        \STATE Algorithm parameters: steps size $\alpha \in (0, 1]$, a positive
+        integer $n$.
+        \STATE All store and access operations (for $S_t$, $A_t$ and $R_t$) can take their index mod $n + 1$.
+        \FOR {each episode}
+          \STATE Initialize and store $S_0$ non-terminal state.
+          \STATE Select and store an action $A_0$ according to $b$.
+          \STATE $T \leftarrow \infty$
+          \FOR {$t = 0, 1, 2 \dots$}
+            \IF {$t < T$}
+              \STATE Take action $A_t$.
+              \STATE Observe and store the next reward as $R_{t + 1}$ and the
+              next state as $S_{t + 1}$.
+              \IF {$S_{t + 1}$ is terminal}
+                \STATE {$T \leftarrow t + 1$}
+              \ELSE
+                \STATE Select and store an action $A_{t + 1}$ according to $b$.
+              \ENDIF
+            \ENDIF
+            \STATE {$\tau \leftarrow t - n + 1$ ($\tau$ is the time whose estimate
+            is being updated.)}
+            \IF {$\tau \ge 0$}
+              \IF {$\tau + n < T$}
+                \STATE {$G \leftarrow Q(S_{\tau + n}, A_{\tau + n})$}
+              \ELSE
+                \STATE {$G \leftarrow R_T$}
+              \ENDIF
+              \FOR {$k = \min(\tau + n - 1, T - 1) \dots \tau + 1$}
+                \STATE {$expectedvalue \leftarrow \sum\limits_a \pi(a|S_k) Q(S_k, a)$}
+                \STATE {$\rho \leftarrow \frac{\pi(A_k|S_k)}{b(A_k|S_k)}$}
+                \STATE {$G \leftarrow R_k + \gamma
+                (\rho( G + expectedvalue - \rho Q(S_k, A_k))$}
+              \ENDFOR
+              \STATE {$Q(S_\tau, A_\tau) \leftarrow Q(S_\tau, A_\tau)
+              + \alpha(G - Q(S_\tau, A_\tau))$}
+            \ENDIF
+            \IF {$\tau = T - 1$}
+              \STATE {break}
+            \ENDIF
+            \ENDFOR
+        \ENDFOR
+      \end{algorithmic}
+    \end{algorithm}
 
 \end{enumerate}
 \end{document}
