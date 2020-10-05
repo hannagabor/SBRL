@@ -5,6 +5,7 @@
 \usepackage{hyperref}
 \usepackage{algorithmic, algorithm}
 \usepackage{graphics, graphicx}
+
 \graphicspath{ {./7.2/} }
 
 \DeclareMathOperator*{\argmax}{argmax}
@@ -105,6 +106,8 @@
       - V_{t + n - 1}(S_t)\Big)
     \end{align*}
 
+    See the algorithm on the next page.
+
     \begin{algorithm}
       \caption{Per-decision off-policy state-value prediction algorithm}
       \begin{algorithmic}
@@ -153,6 +156,24 @@
         \ENDFOR
       \end{algorithmic}
     \end{algorithm}
+
+  \item
+    \textit{Prove that the control variate in the above equations does not change the
+    expected value of the return.}
+
+    We need to show that
+    \[
+    \mathbb{E} (\bar{V}_{h - 1}(S_{t + 1}) - \rho_{t + 1} Q_{h - 1}
+    (S_{t + 1}, A_{t + 1})) = 0
+    \]
+
+    $\bar{V}_{h - 1}(S_{t + 1})$ does not depend on $b$, so it is enough to show
+    that
+    \[\sum\limits_a b(a|S_{t + 1}) \Big(\frac{\pi(a | S_{t + 1})}{b(a | S_{t + 1})} Q_{h - 1}(S_{t + 1}, a)\Big) = \bar{V}_{h - 1}(S_{t + 1})
+    \]
+
+    The left-hand side is equal to $\sum\limits_a \pi(a | S_{t + 1})Q_{h - 1}(S_{t + 1}, a)$ and that is the definition of $\bar{V}_{h - 1}(S_{t + 1})$.
+
 
 \end{enumerate}
 \end{document}
