@@ -44,7 +44,7 @@
     I would like to try the algorithms on a problem where we may return to the same
     state shortly. My expectation is that the $n$-step update works better, because it uses
     a more recent estimation of $V(S_t)$. It does not use estimations of $V_(S_{t + i})$
-    (for $i = 1 \dots < n$) either, but I am not sure if it is for the better or the worse. Let's try it on a random walk example, like in Example 6.2.
+    (for $i = 1 \dots n$) either, but I am not sure if it is for the better or the worse. Let's try it on a random walk example, like in Example 6.2.
 
     The code can be found at \url{https://github.com/hannagabor/SBRL/blob/master/7.2/random_walks_td.ipynb}.
 
@@ -282,9 +282,11 @@
     with probability $0.5$ and the target policy is to choose right with probability
     $0.6$.
 
+    The code can be found at \url{https://github.com/hannagabor/SBRL/blob/master/7.10/random_walks_off_policy.ipynb}.
+
     \begin{center}
-    \includegraphics[scale=0.45]{0.01}
-    \includegraphics[scale=0.45]{0.005}
+    \includegraphics[scale=0.45]{off_0.01}
+    \includegraphics[scale=0.45]{off_0.005}
     \end{center}
 
 \end{enumerate}
