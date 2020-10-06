@@ -251,5 +251,27 @@
       \rho_l\Big) \delta_k
     \end{align*}
 
+  \newpage
+  \item
+    \textit{Repeat the above exercise for the action version of the off-policy n-step
+    return (7.14) and the Expected Sarsa TD error (the quantity in brackets in
+    Equation 6.9).}
+
+    \begin{align*}
+      G_{t: h} &= R_{t + 1} + \gamma\rho_{t + 1} (G_{t + 1: h}
+      - Q(S_{t + 1}, A_{t + 1})) + \gamma \bar{V}(S_{t + 1})\\
+      &= Q(S_t, A_t) + R_{t + 1} + \gamma \bar{V}(S_{t + 1}) - Q(S_t, A_t)\\
+      &+ \gamma \rho_{t + 1} \Big(R_{t + 2} + \gamma\rho_{t + 2} (G_{t + 2: h} -
+      Q(S_{t + 2}, A_{t + 2})) + \gamma \bar{V}(S_{t + 2})
+      - Q(S_{t + 1}, A_{t + 1})\Big)\\
+      &= Q(S_t, A_t) + R_{t + 1} + \gamma \bar{V}(S_{t + 1}) - Q(S_t, A_t)\\
+      &+ \gamma \rho_{t + 1} \Big(R_{t + 2} + \gamma \bar{V}(S_{t + 2})
+      - Q(S_{t + 1}, A_{t + 1})\Big)\\
+      &+ \gamma^2\rho_{t + 1}\rho_{t + 2}(G_{t + 2: h} - Q(S_{t + 2}, A_{t + 2}))\\
+      &= \dots\\
+      &= Q(S_t, A_t) + \sum\limits_{k = t}^{h} \gamma^{k - t} \Big(
+      \prod\limits_{l = t + 1}^k \rho_{l}\Big) \delta_k
+    \end{align*}
+
 \end{enumerate}
 \end{document}
