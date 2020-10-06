@@ -231,5 +231,25 @@
       \end{algorithmic}
     \end{algorithm}
 
+  \item
+    \textit{Show that the general (off-policy) version of the n-step return (7.13) can
+    still be written exactly and compactly as the sum of state-based TD errors (6.5)
+    if the approximate state value function does not change.}
+
+    \begin{align*}
+      G_{t: h} &= \rho_t (R_{t + 1} + \gamma G_{t + 1: h}) + (1 - \rho_t)V(S_t)\\
+      &= \rho_t (R_{t + 1} + \gamma (
+      \rho_{t + 1} (R_{t + 2} + \gamma G_{t + 2: h}) + (1 - \rho_{t + 1})V(S_{t + 1})
+      )) + (1 - \rho_t)V(S_t)\\
+      &= V(S_t) + \rho_t (R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t))\\
+      &+ \gamma \rho_t \rho_{t + 1} (R_{t + 2} + \gamma G_{t + 2: h} - V(S_{t + 1}))\\
+      &= V(S_t) + \rho_t (R_{t + 1} + \gamma V(S_{t + 1}) - V(S_t))\\
+      &+ \gamma \rho_t \rho_{t + 1} (R_{t + 2} + \gamma V(S_{t + 2}) - V(S_{t + 1}))\\
+      &+ \gamma ^ 2 \rho_t \rho_{t + 1} \rho_{t + 2} (R_{t + 3} + \gamma G_{t + 3: h} - V(S_{t + 2}))\\
+      &= \dots \\
+      &= V(S_t) + \sum\limits_{k = t}^{h - 1} \gamma^{k - t} \Big(\prod_{l = t}^k
+      \rho_l\Big) \delta_k
+    \end{align*}
+
 \end{enumerate}
 \end{document}
