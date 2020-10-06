@@ -6,7 +6,7 @@
 \usepackage{algorithmic, algorithm}
 \usepackage{graphics, graphicx}
 
-\graphicspath{ {./7.2/} }
+\graphicspath{ {./7.2/} {./7.10/} }
 
 \DeclareMathOperator*{\argmax}{argmax}
 \pagestyle{empty}
@@ -145,7 +145,7 @@
                 \STATE {$\rho \leftarrow \rho \cdot
                 \frac{\pi(A_{\tau + n}|S_{\tau + n})}
                 {b(A_{\tau + n}|S_{\tau + n})}$}
-                \STATE {$G \leftarrow G + \gamma^n V(S_{\tau + n})$}
+                \STATE {$G \leftarrow G + \gamma^n \rho V(S_{\tau + n})$}
               \ENDIF
               \STATE $V(S_\tau) \leftarrow V(S_\tau) + \alpha(G - V(S_\tau))$
             \ENDIF
@@ -272,6 +272,20 @@
       &= Q(S_t, A_t) + \sum\limits_{k = t}^{h} \gamma^{k - t} \Big(
       \prod\limits_{l = t + 1}^k \rho_{l}\Big) \delta_k
     \end{align*}
+
+  \item
+    \textit{Devise a small off-policy prediction problem and use it to show that
+    the off-policy learning algorithm using (7.13) and (7.2) is more data efficient
+    than the simpler algorithm using (7.1) and (7.9).}
+
+    I tried them on the random walk example. The behavior policy is to choose right
+    with probability $0.5$ and the target policy is to choose right with probability
+    $0.6$.
+
+    \begin{center}
+    \includegraphics[scale=0.45]{0.01}
+    \includegraphics[scale=0.45]{0.005}
+    \end{center}
 
 \end{enumerate}
 \end{document}
