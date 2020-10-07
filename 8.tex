@@ -1,0 +1,32 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage{hyperref}
+\usepackage{algorithmic, algorithm}
+\usepackage{graphics, graphicx}
+
+\DeclareMathOperator*{\argmax}{argmax}
+\pagestyle{empty}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+}
+
+\begin{document}
+\textbf{Chapter 8 solutions  \hfill Hanna Gábor}
+
+\begin{enumerate}
+  \item
+    \textit{The nonplanning method looks particularly poor in Figure 8.3 because it is
+    a one-step method; a method using multi-step bootstrapping would do better. Do you
+    think one of the multi-step bootstrapping methods from Chapter 7 could do as well as
+    the Dyna method? Explain why or why not.}
+
+    I think so. An $n$-step bootstrpping algorithm with big enough $n$ (or a Monte Carlo
+    method) would update at the end of the first episode all the action-values we encountered
+    during the episode.
+    I expect the policy based on these updated action-values to be quite good.
+
+\end{enumerate}
+\end{document}
