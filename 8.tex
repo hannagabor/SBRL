@@ -81,6 +81,19 @@
     phase. To handle changes in the environment, we could modify this to sample
     only from the $k$ latest reward-state pairs.
 
+  \item
+    \textit{The analysis above assumed that all of the b possible next states were
+    equally likely to occur. Suppose instead that the distribution was highly skewed, that
+    some of the b states were much more likely to occur than most. Would this strengthen or
+    weaken the case for sample updates over expected updates? Support your answer.}
+
+    The sample updates would be better in this case. E.g. if there is one state
+    that has high probaility, then a sample update will probably use that state.
+    Using only this highly probable state for the sample update makes the result closer
+    to the expected update, as that state has a huge weight in the expected update.
+    Thus it strenghetns the case for sample updates over expected updates.
+
+
 
 \end{enumerate}
 \end{document}
