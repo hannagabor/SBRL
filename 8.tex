@@ -69,6 +69,18 @@
     \includegraphics[scale=0.7]{dyna}
     \end{center}
 
+  \item
+    \textit{How might the tabular Dyna-Q algorithm shown on page 164 be modified
+    to handle stochastic environments? How might this modification perform poorly on
+    changing environments such as considered in this section? How could the algorithm be
+    modified to handle stochastic environments and changing environments?}
+
+    Instead of assigning single reward-state pairs to state-action pairs in the model,
+    we could store all the reward-state pairs that we've seen after taking the
+    respective action. We would sample from these stored items during the planning
+    phase. To handle changes in the environment, we could modify this to sample
+    only from the $k$ latest reward-state pairs.
+
 
 \end{enumerate}
 \end{document}
