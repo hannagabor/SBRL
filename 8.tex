@@ -5,7 +5,7 @@
 \usepackage{hyperref}
 \usepackage{algorithmic, algorithm}
 \usepackage{graphics, graphicx}
-
+\graphicspath{ {./8.4/} }
 \DeclareMathOperator*{\argmax}{argmax}
 \pagestyle{empty}
 \hypersetup{
@@ -60,5 +60,15 @@
     shortcut, we get back to the old path. If this happens, we will need to wait until
     the first exploratory step accumulates a huge bonus again to go down on that
     path again.
+
+    I couldn't reproduce the cumulative reward of $400$ shown in the book, my
+    implementation of Dyna-Q+ only reached $350$ and I couldn't figure out why.
+    Anyway, here is the result.
+
+    \begin{center}
+    \includegraphics[scale=0.7]{dyna}
+    \end{center}
+
+
 \end{enumerate}
 \end{document}
