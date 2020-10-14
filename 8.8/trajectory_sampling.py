@@ -23,7 +23,7 @@ class Task:
         terminal_reward = random.gauss(0, 1)
         transition_probs[state, action] = [
             (0.1, self.terminal_state, terminal_reward)]
-        possible_next_states = random.choices(
+        possible_next_states = random.sample(
             range(num_states), k=branching_factor)
         for new_state in possible_next_states:
           reward = random.gauss(0, 1)
