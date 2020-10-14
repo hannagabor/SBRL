@@ -40,7 +40,7 @@ class Estimator:
     self.task = task
     # Contains the real state values ccording to the current policy.
     self.state_values = {
-        state: random.randrange(-1, 1) for state in self.task.states}
+        state: random.uniform(-1, 1) for state in self.task.states}
     self.state_values[self.task.terminal_state] = 0
 
   def update(self, state, action):
@@ -116,7 +116,7 @@ class EpsilonGreedyPolicy:
     self.actions = actions
 
   def choose_action(self, state):
-    if random.randrange(0, 1) < self.epsilon:
+    if random.uniform(0, 1) < self.epsilon:
       return random.choice(self.actions)
     else:
       return self.best_action(state)
@@ -125,7 +125,8 @@ class EpsilonGreedyPolicy:
     return max(self.actions, key=lambda a: self.action_values[state, a])
 
   def get_probs(self, state):
-    action_probs = {action: self.epsilon for action in self.actions}
+    action_probs = {action: self.epsilon /
+                    len(self.actions) for action in self.actions}
     action_probs[self.best_action(state)] += 1 - self.epsilon
     return action_probs
 
