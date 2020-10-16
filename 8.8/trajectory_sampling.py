@@ -136,7 +136,6 @@ class EpsilonGreedyPolicy:
 
 
 if __name__ == '__main__':
-  NUM_DATA_POINTS = 100
   parser = argparse.ArgumentParser()
   parser.add_argument('branching_factor', nargs=1, type=int)
   parser.add_argument('num_states', nargs=1, type=int)
@@ -147,6 +146,8 @@ if __name__ == '__main__':
   num_states = args.num_states[0]
   branching_factor = args.branching_factor[0]
   num_runs = args.num_runs[0]
+  NUM_DATA_POINTS = min(100, num_updates)
+
 
   uniform_res = []
   trajectory_res = []
