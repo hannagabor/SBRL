@@ -51,7 +51,7 @@ class Estimator:
         prob * (reward + self.gamma * best_action_value_from_state(new_state))
         for prob, new_state, reward in transitions)
 
-  def evaluate_greedy_policy(self, max_delta=0.01, epsilon=0.1):
+  def evaluate_greedy_policy(self, max_delta=0.001, epsilon=0.1):
     delta = max_delta
     policy = EpsilonGreedyPolicy(
         self.action_values, self.task.actions, epsilon)
@@ -73,11 +73,13 @@ class Estimator:
 class UniformEstimator(Estimator):
   def estimate(self, num_updates):
     updates = 0
+    update_mod = num_updates // NUM_DATA_POINTS
     while True:
       for state in self.task.states:
         for action in self.task.actions:
           self.update(state, action)
-          self.evaluate_greedy_policy()
+          if updates % update_mod == 0:
+            self.evaluate_greedy_policy()
           updates += 1
           if updates == num_updates:
             return self.results
@@ -90,6 +92,7 @@ class TrajectoryEstimator(Estimator):
 
   def estimate(self, num_updates):
     updates = 0
+    update_mod = num_updates // NUM_DATA_POINTS
     state = self.task.start_state
     while True:
       policy = EpsilonGreedyPolicy(self.action_values,
@@ -97,7 +100,8 @@ class TrajectoryEstimator(Estimator):
                                    self.epsilon)
       action = policy.choose_action(state)
       self.update(state, action)
-      self.evaluate_greedy_policy()
+      if updates % update_mod == 0:
+        self.evaluate_greedy_policy()
       updates += 1
       transitions = self.task.transition_probs[state, action]
       possible_states = [state for _, state, _ in transitions]
@@ -132,6 +136,7 @@ class EpsilonGreedyPolicy:
 
 
 if __name__ == '__main__':
+  NUM_DATA_POINTS = 100
   parser = argparse.ArgumentParser()
   parser.add_argument('branching_factor', nargs=1, type=int)
   parser.add_argument('num_states', nargs=1, type=int)
@@ -152,8 +157,9 @@ if __name__ == '__main__':
     te = TrajectoryEstimator(t)
     trajectory_res.append(np.array(te.estimate(num_updates)))
 
-  plt.plot(np.array(uniform_res).mean(0))
-  plt.plot(np.array(trajectory_res).mean(0))
+  x = [i * num_updates//NUM_DATA_POINTS for i in range(NUM_DATA_POINTS)]
+  plt.plot(x, np.array(uniform_res).mean(0))
+  plt.plot(x, np.array(trajectory_res).mean(0))
   plt.xlabel('number of expected updates')
   plt.ylabel('value of start state under greedy policy')
   plt.legend(['uniform', 'on-policy'])
