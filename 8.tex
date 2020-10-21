@@ -5,7 +5,7 @@
 \usepackage{hyperref}
 \usepackage{algorithmic, algorithm}
 \usepackage{graphics, graphicx}
-\graphicspath{ {./8.4/} }
+\graphicspath{ {./8.4/} {./8.8/} }
 \DeclareMathOperator*{\argmax}{argmax}
 \pagestyle{empty}
 \hypersetup{
@@ -23,7 +23,7 @@
     think one of the multi-step bootstrapping methods from Chapter 7 could do as well as
     the Dyna method? Explain why or why not.}
 
-    I think it can come close. An $n$-step bootstrpping algorithm with big enough $n$ (or a
+    I think it can come close. An $n$-step bootstrapping algorithm with big enough $n$ (or a
     Monte Carlo method) would update at the end of the first episode all the action-values we
     encountered during the episode.
     I expect the policy based on these updated action-values to be quite good.
@@ -88,12 +88,49 @@
     weaken the case for sample updates over expected updates? Support your answer.}
 
     The sample updates would be better in this case. E.g. if there is one state
-    that has high probaility, then a sample update will probably use that state.
+    that has high probability, then a sample update will probably use that state.
     Using only this highly probable state for the sample update makes the result closer
     to the expected update, as that state has a huge weight in the expected update.
-    Thus it strenghetns the case for sample updates over expected updates.
+    Thus it strengthens the case for sample updates over expected updates.
 
+  \item 
+    \textit{Some of the graphs in Figure 8.8 seem to be scalloped in their early portions,
+    particularly the upper graph for b = 1 and the uniform distribution. Why do you think
+    this is? What aspects of the data shown support your hypothesis?}
 
+    I don't have a coherent answer, just some vague thoughts. If you change a value close to
+    the start state that changes the chosen action in the corresponding state, then the greedy
+    route becomes quite different and there can be a bigger change in the value of the start
+    state. We change a lot of state-action values that doesn't effect the greedy path. If $b$
+    is smaller, then there are more such state-action values that have no real effect on the
+    greedy path.
+
+  \item
+    \textit{Programming. Replicate the experiment whose results are shown in the
+    lower part of Figure 8.8, then try the same experiment but with b = 3. Discuss the
+    meaning of your results.}
+
+    My results are a bit different from the results in the book. I couldn't find the difference in the code,
+    and the results are not that different. Anyway, my results for the $b = 1$ and $b = 3$
+    cases are the following. (The diagrams show the average of $100$ runs.)
+
+    \begin{center}
+      \includegraphics[scale=0.7]{num_states_10000_b_1}
+      \includegraphics[scale=0.7]{num_states_10000_b_3}
+    \end{center}
+
+    Differences:
+    \begin{itemize}
+      \item The maximum state value of the starting state is higher in the $b = 1$ case.
+      This makes sense: the average of three samples from a Gaussian distribution has
+      a smaller standard deviation than just one sample.
+      \item In case of $b = 3$, it happens sooner that the uniform update provides a better policy than
+      the trajectory sampling method. I am not sure I would have predicted this, but I can explain
+      it afterwards. In the $b = 3$ case, we use the estimates of three possible next states,
+      but during one episode we only end up in one of these possible states. It's a disadvantage of the
+      trajectory sampling method that it performs updates on the same states over and over again without
+      improving the estimation of their successors.
+    \end{itemize}
 
 \end{enumerate}
 \end{document}
