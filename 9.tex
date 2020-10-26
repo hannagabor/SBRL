@@ -32,6 +32,20 @@
     There are $k$ states, we make a choice for each them: we can do that ($(n + 1)^k$)-many
     ways.
 
-
+  \item \textit{What n and $c_{i,j}$ produce the feature vectors
+    \[x(s) = (1, s_1, s_2, s_1s_2, s_1^2, s_2^2, s_1s_2^2, s_1^2s_2, s_1^2s_2^2)^T?\]}
+    \vspace{-1cm}
+    \begin{align*}
+    n &= 2 \\
+    c_{1, 1} &= c_{1, 2} = 0\\
+    c_{2, 1} &= 1, c_{2, 2} = 0\\
+    c_{3, 1} &= 0, c_{3, 2} = 1\\
+    c_{4, 1} &= 1, c_{4, 2} = 1\\
+    c_{5, 1} &= 2, c_{5, 2} = 0\\
+    c_{6, 1} &= 0, c_{6, 2} = 2\\
+    c_{7, 1} &= 1, c_{7, 2} = 2\\
+    c_{8, 1} &= 2, c_{8, 2} = 1\\
+    c_{9, 1} &= 2, c_{9, 2} = 2\\
+    \end{align*}
 \end{enumerate}
 \end{document}
