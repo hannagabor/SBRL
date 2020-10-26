@@ -2,3 +2,8 @@
 *.log
 *.out
 */.ipynb_checkpoints
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*/__pycache__
+.vscode
