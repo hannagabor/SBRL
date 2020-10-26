@@ -1,0 +1,30 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage{hyperref}
+\usepackage{algorithmic, algorithm}
+\usepackage{graphics, graphicx}
+\DeclareMathOperator*{\argmax}{argmax}
+\pagestyle{empty}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+}
+
+\begin{document}
+\textbf{Chapter 9 solutions  \hfill Hanna Gábor}
+
+\begin{enumerate}
+  \item \textit{Show that tabular methods such as presented in Part I of this book are a
+    special case of linear function approximation. What would the feature vectors be?}
+    
+    The feature would be an indicator of the state: the feature vector's length would be
+    equal to the number of states, and $x(s_i)$ would be a vector that contains $1$ at
+    the $i^{th}$ coordinate and $0$ at the others. The weight vector would also have
+    the same length as the number of states. The $i^th$ weight would be our value estimate
+    for $s_i$. When we're doing the update, the gradient of $x(s_i)$ is $0$ everywhere except
+    for coordinate $i$, where it's $1$, so we would only update the weight for the current state.
+    
+\end{enumerate}
+\end{document}
