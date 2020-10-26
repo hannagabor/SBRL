@@ -26,5 +26,12 @@
     for $s_i$. When we're doing the update, the gradient of $x(s_i)$ is $0$ everywhere except
     for coordinate $i$, where it's $1$, so we would only update the weight for the current state.
     
+  \item \textit{Why does (9.17) define $(n + 1)^k$ distinct features for dimension $k$?}
+    
+    For each state $s_j$, we choose one of $n + 1$ options: $s_j^0, s_j^1 \dots, s_j^n$.
+    There are $k$ states, we make a choice for each them: we can do that ($(n + 1)^k$)-many
+    ways.
+
+
 \end{enumerate}
 \end{document}
