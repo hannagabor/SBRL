@@ -57,5 +57,22 @@
   function. In this case, the tiles should be short in the first dimension and long in
   the second dimension. This way, if we learn from an example $(s_1, s_2)$, we update
   many $(s_1, x)$ states and less $(x, s_2)$ states.
+
+  \item \textit{Suppose you are using tile coding to transform a seven-dimensional continuous
+  state space into binary feature vectors to estimate a state value function
+  $\hat{v}(s,w) \approx v_\pi(s)$. You believe that the dimensions do not interact strongly,
+  so you decide to use eight tilings of each dimension separately (stripe tilings), for 
+  $7 \cdot 8 = 56$ tilings. In addition, in case there are some pairwise interactions between
+  the dimensions, you also take all $\binom{7}{2} = 21$ pairs of dimensions and tile each
+  pair conjunctively with rectangular tiles. You make two tilings for each pair of dimensions,
+  making a grand total of $21 \cdot 2 + 56 = 98$ tilings. Given these feature vectors, you suspect
+  that you still have to average out some noise, so you decide that you want learning to be
+  gradual, taking about 10 presentations with the same feature vector before learning nears
+  its asymptote. What step-size parameter $\alpha$ should you use? Why?}
+
+  Each state will be contained in $98$ tiles, that means there will be $98$ ones in the feature vector.
+  Based on the rule of thumb before the exercise,
+  \[\alpha = \frac{1}{10 \mathbb{E}(x^Tx)} = \frac{1}{10 \cdot 98} = \frac{1}{980}\]
+  should be a good choice.
 \end{enumerate}
 \end{document}
