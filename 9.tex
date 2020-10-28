@@ -47,5 +47,15 @@
     c_{8, 1} &= 2, c_{8, 2} = 1\\
     c_{9, 1} &= 2, c_{9, 2} = 2\\
     \end{align*}
+  
+  \item \textit{Suppose we believe that one of two state dimensions is more likely to have
+  an effect on the value function than is the other, that generalization should be primarily
+  across this dimension rather than along it. What kind of tilings could be used to take
+  advantage of this prior knowledge?}
+
+  Let's say it's the first dimension that is more likely to have an effect on the value
+  function. In this case, the tiles should be short in the first dimension and long in
+  the second dimension. This way, if we learn from an example $(s_1, s_2)$, we update
+  many $(s_1, x)$ states and less $(x, s_2)$ states.
 \end{enumerate}
 \end{document}
