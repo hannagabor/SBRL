@@ -74,5 +74,24 @@
   Based on the rule of thumb before the exercise,
   \[\alpha = \frac{1}{10 \mathbb{E}(x^Tx)} = \frac{1}{10 \cdot 98} = \frac{1}{980}\]
   should be a good choice.
+
+  \item \textit{If $\tau = 1$, prove that (9.19) together with (9.7) results in the error being
+  reduced to zero in one update.}
+
+  The goal is to prove that after the update $\mathbb{E}(x_t^Tw_{t + 1}) = \mathbb{E}(U_t)$.
+
+  \begin{align*}
+    x_t^T w_{t + 1} &= x_t^T(w_t + \alpha(U_t - \hat{v}(S_t, w_t)) \nabla \hat{v}(S_t, w_t))\\
+    &= x_t^T\Big(w_t + \frac{1}{\mathbb{E}(x^Tx)} (U_t - x_t^T w_t)\Big)x_t\\
+    &= x_t^T w_t + U_t\frac{x_t^T x_t}{\mathbb{E}(x^Tx)} - x_t^T w_t \frac{x_t^T x_t}{\mathbb{E}(x^Tx)}\\
+    \mathbb{E}(x_t^T w_{t + 1}) &= \mathbb{E}(x_t^T w_t)
+    + \mathbb{E}\Big(U_t\frac{x_t^T x_t}{\mathbb{E}(x^Tx)}\Big)
+    - \mathbb{E}\Big(x_t^T w_t \frac{x_t^T x_t}{\mathbb{E}(x^Tx)}\Big)
+  \end{align*}
+
+  If $x_t^T x_t$ is independent from $U_t$ and $x_t^Tw_t$, then $\mathbb{E}(x_t^Tw_{t + 1}) = \mathbb{E}(U_t)$
+  follows from this. Otherwise it doesn't. I'm not sure if the statement is true if
+  these are not independent.
+
 \end{enumerate}
 \end{document}
