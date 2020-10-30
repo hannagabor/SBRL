@@ -108,5 +108,28 @@
     &= w_t + \alpha \sigma(w_t^Tx_t)^2(1 - \sigma(w_t^Tx_t)) x_t \\
   \end{align*}
 
+  \item \textit{Arguably, the squared error used to derive (9.7) is inappropriate for the
+  case treated in the preceding exercise, and the right error measure is the cross-entropy
+  loss (which you can find on Wikipedia). Repeat the derivation in Section 9.3, using the
+  cross-entropy loss instead of the squared error in (9.4), all the way to an explicit form
+  with no gradient or logarithm notation in it. Is your final form more complex, or simpler,
+  than that you obtained in the preceding exercise?}
+
+  It is a bit simpler in the end. For $U_t$ and $\sigma(w_t^Tx_t)$, the cross-entropy loss is
+  \[c = -(U_t \log(\sigma(w_t^Tx_t)) + (1 - U_t)\log(1 - \sigma(w_t^Tx_t))).\]
+  Using this and the derivative of $\sigma$:
+  \begin{align*}
+    \nabla(c) &= -\frac{U_t}{\sigma(w_t^Tx_t)}\sigma'(w_t^Tx_t)x_t
+    + \frac{(1 - U_t)}{1 - \sigma(w_t^Tx_t)}\sigma'(w_t^Tx_t)x_t\\
+    &= -\frac{U_t(1 - \sigma(w_t^Tx_t))}{\sigma(w_t^Tx_t)(1 - \sigma(w_t^Tx_t))}
+    \sigma'(w_t^Tx_t)x_t
+    + \frac{(1 - U_t)\sigma(w_t^Tx_t)}{\sigma(w_t^Tx_t)(1 - \sigma(w_t^Tx_t))}
+    \sigma'(w_t^Tx_t)x_t\\
+    &= -U_t(1 - \sigma(w_t^Tx_t))x_t + (1 - U_t)\sigma(w_t^Tx_t)x_t\\
+    &= -U_t x_t + \sigma(w_t^T x_t)x_t\\
+    w_{t + 1} &= w_t - \alpha \nabla(c)\\
+    &= w_t - \alpha(\sigma(w_t^T x_t) - U_t)x_t\\
+  \end{align*}
+
 \end{enumerate}
 \end{document}
