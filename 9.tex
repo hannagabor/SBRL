@@ -93,5 +93,20 @@
   follows from this. Otherwise it doesn't. I'm not sure if the statement is true if
   these are not independent.
 
+  \item \textit{One of the simplest artificial neural networks consists of a single semi-linear
+  unit with a logistic nonlinearity. The need to handle approximate value functions of this
+  form is common in games that end with either a win or a loss, in which case the value of
+  a state can be interpreted as the probability of winning. Derive the learning algorithm
+  for this case, from (9.7), such that no gradient notation appears.}
+
+  The derivative of the sigmoid function $\sigma$ is $\sigma'(x) = \sigma(x)
+  (1 - \sigma(x)$.
+
+  \begin{align*}
+    w_{t + 1} &= w_t + \alpha\sigma(w_t^Tx_t) \nabla \sigma(w_t^Tx_t)\\
+    &= w_t + \alpha \sigma(w_t^Tx_t) \sigma'(w_t^Tx_t) x_t \\
+    &= w_t + \alpha \sigma(w_t^Tx_t)^2(1 - \sigma(w_t^Tx_t)) x_t \\
+  \end{align*}
+
 \end{enumerate}
 \end{document}
