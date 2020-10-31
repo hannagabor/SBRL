@@ -26,5 +26,34 @@
   As opposed to this, $n$-step Sarsa tries new actions after it sees
   that the previous actions didn't lead to the end of the episode, so it will
   get to the goal line eventually.
+
+  \item \textit{Give pseudocode for semi-gradient one-step Expected Sarsa for control.}
+
+  \begin{algorithm}
+    \caption{Semi-gradient expected Sarsa for control}
+    \begin{algorithmic}
+      \STATE Inputs: a differentiable action-value function parameterization
+      $\hat{q}: \mathcal{S} \times \mathcal{A} \times \mathbb{R}^d \rightarrow \mathbb{R}$
+      \STATE Algorithm parameters: steps size $\alpha > 0, \epsilon > 0$
+      \STATE Initialize value-function weights $w \in \mathbb{R}^d$ arbitrarily
+      \FOR {each episode}
+        \STATE Initialize $S_0$ non-terminal state.
+        \FOR {$t = 0, 1, 2 \dots$}
+          \STATE Take action $A_t$ according to the $\epsilon$-greedy policy w.r.t.
+          \STATE Observe reward $R_{t + 1}$ and next state $S_{t + 1}$.
+          \IF {$S_{t + 1}$ is terminal}
+            \STATE $w \leftarrow w + \alpha R_{t + 1} \nabla\hat{q}(S_t, A_t, w)$
+            \STATE go to next episode
+          \ELSE
+            \STATE $w \leftarrow w + \alpha\Big(R_{t + 1} + \sum\limits_a\pi(a|S_{t + 1})
+            \hat{q}(S_{t + 1}, a, w) - \hat{q}(S_t, A_t, w)\Big)
+            \nabla\hat{q}(S_t, A_t, w)$, where $\pi$ is the $\epsilon$-greedy policy w.r.t.
+            $\hat{q}(S_0, \cdot, w)$
+            \STATE $S_t \leftarrow S_{t + 1}$
+          \ENDIF
+        \ENDFOR
+      \ENDFOR
+    \end{algorithmic}
+  \end{algorithm}
 \end{enumerate}
 \end{document}
