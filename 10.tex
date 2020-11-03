@@ -181,5 +181,21 @@
     &= \lim\limits_{\gamma \rightarrow 1} \frac{\gamma + 2}{3(1 + \gamma + \gamma^2)}
     = \frac{1}{3}\\
   \end{align*}
+
+  \item \textit{The pseudocode in the box on page 251 updates $\bar{R}_t$ using $\delta_t$
+  as an error rather than simply $R_{t + 1} - \bar{R}_t$. Both errors work, but using
+  $\delta_t$ is better. To see why, consider the ring MRP of three states from
+  Exercise 10.7. The estimate of the average reward should tend towards its true
+  value of $\frac{1}{3}$. Suppose it was already there and was
+  held stuck there. What would the sequence of $R_{t + 1} - \bar{R}_t$ errors be?
+  What would the sequence of $\delta_t$ errors be (using Equation 10.10)? Which error
+  sequence would produce a more stable estimate of the average reward if the estimate
+  were allowed to change in response to the errors? Why?}
+
+  The $R_{t + 1} - \bar{R}_t$ sequence would be $\frac{2}{3}, -\frac{1}{3},-\frac{1}{3},
+  \frac{2}{3}, -\frac{1}{3}, -\frac{1}{3}, \dots$. The $\delta_t$ error would always
+  be $0$. The $\delta_t$ errors would produce a more stable estimate, since they don't
+  change the estimate once it's reached, while the $R_{t + 1} - \bar{R}_t$ error is never
+  $0$, so the estimate would continue to fluctuate.
 \end{enumerate}
 \end{document}
