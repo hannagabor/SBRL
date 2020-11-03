@@ -32,7 +32,7 @@
   \begin{algorithm}
     \caption{Semi-gradient expected Sarsa for control}
     \begin{algorithmic}
-      \STATE Inputs: a differentiable action-value function parameterization
+      \STATE Inputs: a differentiable action-value function parametrization
       $\hat{q}: \mathcal{S} \times \mathcal{A} \times \mathbb{R}^d \rightarrow \mathbb{R}$
       \STATE Algorithm parameters: steps size $\alpha > 0, \epsilon > 0$
       \STATE Initialize value-function weights $w \in \mathbb{R}^d$ arbitrarily
@@ -40,6 +40,7 @@
         \STATE Initialize $S_0$ non-terminal state.
         \FOR {$t = 0, 1, 2 \dots$}
           \STATE Take action $A_t$ according to the $\epsilon$-greedy policy w.r.t.
+          $\hat{q}(S_0, \cdot, w)$
           \STATE Observe reward $R_{t + 1}$ and next state $S_{t + 1}$.
           \IF {$S_{t + 1}$ is terminal}
             \STATE $w \leftarrow w + \alpha R_{t + 1} \nabla\hat{q}(S_t, A_t, w)$
@@ -63,6 +64,32 @@
   our estimates to have a bigger standard deviation. That in turn, will cause the steps
   to be more varied among different runs.
   
+  \item \textit{Give pseudocode for a differential version of semi-gradient Q-learning}
+   \begin{algorithm}
+    \caption{Differential version of semi-gradient Q-learning}
+    \begin{algorithmic}
+        \STATE Inputs: a differentiable action-value function parametrization
+        $\hat{q}: \mathcal{S} \times \mathcal{A} \times \mathbb{R}^d \rightarrow \mathbb{R}$
+        \STATE Algorithm parameters: steps size $\alpha > 0, \epsilon > 0$
+        \STATE Initialize value-function weights $w \in \mathbb{R}^d$ arbitrarily.
+        \STATE $\bar{R} \leftarrow 0$
+        \STATE $visits \leftarrow 0$
+        \FOR {each episode}
+          \STATE Initialize $S_0$ non-terminal state.
+          \FOR{$t = 0, 1, 2\dots$}
+            \STATE Choose action $A_t$ according to the $\epsilon$-greedy policy w.r.t. $\hat{q}$
+            \STATE Observe reward $R_{t + 1}$ and next state $S_{t + 1}$.
+            \STATE $w \leftarrow w + \alpha(R_{t + 1} - \bar{R} + \max_a(\hat{q}(S_{t + 1}, a, w))
+            - \hat{q}(S_t, A_t, w)) \nabla \hat{q}(S_t, A_t, w)$
+            \STATE $\bar{R} \leftarrow \frac{visits}{visits + 1} (\bar{R} + R_{t + 1})$
+            \STATE $visits \leftarrow visits + 1$
+            \IF{$S_{t + 1}$ is terminal}
+              \STATE Go to next episode.
+            \ENDIF
+            \ENDFOR
+        \ENDFOR
+     \end{algorithmic}
+   \end{algorithm}
 
 \end{enumerate}
 \end{document}
