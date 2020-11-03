@@ -65,7 +65,8 @@
   to be more varied among different runs.
   
   \item \textit{Give pseudocode for a differential version of semi-gradient Q-learning}
-   \begin{algorithm}
+  See the algorithm on the next page.
+  \begin{algorithm}
     \caption{Differential version of semi-gradient Q-learning}
     \begin{algorithmic}
         \STATE Inputs: a differentiable action-value function parametrization
@@ -89,7 +90,14 @@
             \ENDFOR
         \ENDFOR
      \end{algorithmic}
-   \end{algorithm}
+  \end{algorithm}
+
+   \item \textit{What equations are needed (beyond 10.10) to specify the differential
+   version of TD(0)?}
+
+    \begin{align*}
+      w_{t + 1} = w_t + \alpha\delta_t \nabla \hat{v}(S_t, w_t)
+    \end{align*}
 
 \end{enumerate}
 \end{document}
