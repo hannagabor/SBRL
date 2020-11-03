@@ -65,7 +65,7 @@
   to be more varied among different runs.
   
   \item \textit{Give pseudocode for a differential version of semi-gradient Q-learning}
-  See the algorithm on the next page.
+  See the algorithm on the next page. I used the average of the seen rewards as $\bar{R}$.
   \begin{algorithm}
     \caption{Differential version of semi-gradient Q-learning}
     \begin{algorithmic}
@@ -92,12 +92,46 @@
      \end{algorithmic}
   \end{algorithm}
 
-   \item \textit{What equations are needed (beyond 10.10) to specify the differential
-   version of TD(0)?}
+  \item \textit{What equations are needed (beyond 10.10) to specify the differential
+  version of TD(0)?}
 
     \begin{align*}
       w_{t + 1} = w_t + \alpha\delta_t \nabla \hat{v}(S_t, w_t)
     \end{align*}
 
+  \item \textit{Suppose there is an MDP that under any policy produces the deterministic
+  sequence of rewards +1, 0, +1, 0, +1, 0,... going on forever. Technically, this violates
+  ergodicity; there is no stationary limiting distribution $\mu_\pi$ and the limit (10.7) does not
+  exist. Nevertheless, the average reward (10.6) is well defined. What is it? Now consider
+  two states in this MDP. From A, the reward sequence is exactly as described above,
+  starting with a +1, whereas, from B, the reward sequence starts with a 0 and then
+  continues with +1, 0, +1, 0,.... We would like to compute the differential values of A and
+  B. Unfortunately, the differential return (10.9) is not well defined when starting from
+  these states as the implicit limit does not exist. To repair this, one could alternatively
+  define the differential value of a state as
+  \[ v_\pi (s) = \lim\limits_{\gamma \rightarrow 1} \lim\limits_{h \rightarrow \infty}
+  \sum\limits_{t = 0}^h \gamma^t(\mathbb{E}(R_{t + 1} | S_0 = s) - r(\pi)).
+  \]
+  Under this definition, what are the differential values of states A and B?}
+
+  The average reward is $0.5$.
+  \begin{align*}
+    \lim\limits_{h \rightarrow \infty}
+    \sum\limits_{t = 0}^h \gamma^t(\mathbb{E}(R_{t + 1} | S_0 = A) - r(\pi))
+    &= \sum\limits_{t = 0}^\infty \gamma^{2t} - r(\pi) \sum\limits_{t = 0}^\infty \gamma^t
+    = \frac{1}{1 - \gamma^2} - \frac{0.5}{1 - \gamma}\\
+    v_\pi(A) &= \lim\limits_{\gamma \rightarrow 1} \frac{1}{1 - \gamma^2} - \frac{0.5}{1 - \gamma}
+    = \lim\limits_{\gamma \rightarrow 1} \frac{1 - 0.5(1 + \gamma)}{1 - \gamma^2}\\
+    &= \lim\limits_{\gamma \rightarrow 1} \frac{0.5(1 - \gamma)}{1 - \gamma^2}
+    = \lim\limits_{\gamma \rightarrow 1} 0.5 \frac{1}{1 + \gamma } = 0.25\\
+    \lim\limits_{h \rightarrow \infty}
+    \sum\limits_{t = 0}^h \gamma^t(\mathbb{E}(R_{t + 1} | S_0 = B) - r(\pi))
+    &= \sum\limits_{t = 0}^\infty \gamma^{2t + 1} - r(\pi) \sum\limits_{t = 0}^\infty \gamma^t
+    = \frac{1}{1 - \gamma^2} - \frac{0.5}{1 - \gamma}\\
+    v_\pi(B) &= \lim\limits_{\gamma \rightarrow 1} \frac{\gamma}{1 - \gamma^2} - \frac{0.5}{1 - \gamma}
+    = \lim\limits_{\gamma \rightarrow 1} \frac{\gamma - 0.5(1 + \gamma)}{1 - \gamma^2}\\
+    &= \lim\limits_{\gamma \rightarrow 1} \frac{0.5(\gamma - 1)}{1 - \gamma^2}
+    = \lim\limits_{\gamma \rightarrow 1} -0.5\frac{1}{1 + \gamma} = -0.25
+  \end{align*}
 \end{enumerate}
 \end{document}
