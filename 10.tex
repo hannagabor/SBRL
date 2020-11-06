@@ -197,5 +197,21 @@
   be $0$. The $\delta_t$ errors would produce a more stable estimate, since they don't
   change the estimate once it's reached, while the $R_{t + 1} - \bar{R}_t$ error is never
   $0$, so the estimate would continue to fluctuate.
+
+  \item \textit{In the differential semi-gradient n-step Sarsa algorithm, the step-size
+  parameter on the average reward, $\beta$, needs to be quite small so that $\bar{R}$ becomes a good
+  long-term estimate of the average reward. Unfortunately, $\bar{R}$ will then be biased by its
+  initial value for many steps, which may make learning inefficient. Alternatively, one could
+  use a sample average of the observed rewards for $\bar{R}$. That would initially adapt rapidly
+  but in the long run would also adapt slowly. As the policy slowly changed, $\bar{R}$ would also
+  change; the potential for such long-term nonstationarity makes sample-average methods
+  ill-suited. In fact, the step-size parameter on the average reward is a perfect place to use
+  the unbiased constant-step-size trick from Exercise 2.7. Describe the specific changes
+  needed to the boxed algorithm for differential semi-gradient n-step Sarsa to use this
+  trick.}
+
+  We would need to keep track of $o_n$. That is, initialize it to $0$ and update it
+  by $o \leftarrow o + \beta(1 - o)$ each time we update $\bar{R}$. (Before updating
+  $\bar{R}$.) Also, when updating $\bar{R}$, use $\beta / o$ instead of $\beta$.
 \end{enumerate}
 \end{document}
