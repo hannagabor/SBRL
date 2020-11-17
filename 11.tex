@@ -1,0 +1,35 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage{hyperref}
+\usepackage{algorithmic, algorithm}
+\usepackage{graphics, graphicx}
+\DeclareMathOperator*{\argmax}{argmax}
+\pagestyle{empty}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+}
+
+\begin{document}
+\textbf{Chapter 11 solutions  \hfill Hanna Gábor}
+
+\begin{enumerate}
+  \item \textit{Convert the equation of n-step off-policy TD (7.9) to semi-gradient
+  form. Give accompanying definitions of the return for both the episodic and
+  continuing cases.}
+
+  \[w_{t + n} = w_{t + n - 1} + \alpha \rho_{t : t + n - 1}(G_{t: t + n} - \hat{v}(S_t,
+  w_{t + n - 1})) \nabla \hat{v}(S_t, w_{t + n - 1})\]
+
+  In the episodic case
+  \[G_{t : t + n} = R_{t + 1} + \gamma R_{t + 2} + \dots + \gamma^{t + n - 1} R_{t + n} +
+  \hat{v}(S_{t + n}, w_{t + n - 1}).\]
+
+  In the continuing case
+  \[G_{t : t + n} = R_{t + 1} - \bar{R}_{t + n - 1} + R_{t + 2} - \bar{R}_{t + n - 1}
+  + \dots + R_{t + n} - \bar{R}_{t + n - 1} + \hat{v}(S_{t + n}, w_{t + n - 1}).\]
+
+\end{enumerate}
+\end{document}
