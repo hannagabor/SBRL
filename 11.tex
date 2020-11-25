@@ -31,5 +31,28 @@
   \[G_{t : t + n} = R_{t + 1} - \bar{R}_{t + n - 1} + R_{t + 2} - \bar{R}_{t + n - 1}
   + \dots + R_{t + n} - \bar{R}_{t + n - 1} + \hat{v}(S_{t + n}, w_{t + n - 1}).\]
 
+  \item \textit{Convert the equations of n-step $Q(\sigma)$ (7.11
+  and 7.17) to semi-gradient form. Give definitions that cover both the
+  episodic and continuing cases.}
+
+  \[w_{t + n} = w_{t + n - 1} + \alpha (G_{t: t+ n}
+  - \hat{q}(S_t, A_t, w_{t + n - 1})) \nabla\hat{q}(S_t, A_t, w_{t + n - 1})\]
+
+  In the episodic case
+  \begin{align*}
+    G_{t: h} &= R_{t + 1} + \gamma\Big(\sigma_{t + 1}\rho_{t + 1}
+    + (1 - \sigma) \pi(A_{t + 1}|S_{t + 1})\Big)
+    \Big(G_{t + 1: h} - \hat{q}(S_{t + 1}, A_{t + 1}, w_{h - 1})\Big)\\
+    &+ \gamma \sum\limits_a \pi(a|S_{t + 1}) \hat{q}(S_{t + 1}, a, w_{h - 1})
+  \end{align*}
+
+  In the continuing case
+  \begin{align*}
+    G_{t: h} &= R_{t + 1} - \bar{R}_{h - 1} + \gamma\Big(\sigma_{t + 1}\rho_{t + 1}
+    + (1 - \sigma) \pi(A_{t + 1}|S_{t + 1})\Big)\\
+    &\cdot \Big(G_{t + 1: h} - \hat{q}(S_{t + 1}, A_{t + 1}, w_{h - 1})\Big)
+    + \gamma \sum\limits_a \pi(a|S_{t + 1}) \hat{q}(S_{t + 1}, a, w_{h - 1})
+  \end{align*}
+
 \end{enumerate}
 \end{document}
