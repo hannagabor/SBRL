@@ -5,6 +5,7 @@
 \usepackage{hyperref}
 \usepackage{algorithmic, algorithm}
 \usepackage{graphics, graphicx}
+\graphicspath{ {./11.3/} }
 \DeclareMathOperator*{\argmax}{argmax}
 \pagestyle{empty}
 \hypersetup{
@@ -53,6 +54,15 @@
     &\cdot \Big(G_{t + 1: h} - \hat{q}(S_{t + 1}, A_{t + 1}, w_{h - 1})\Big)
     + \gamma \sum\limits_a \pi(a|S_{t + 1}) \hat{q}(S_{t + 1}, a, w_{h - 1})
   \end{align*}
+
+  \item \textit{Apply one-step semi-gradient Q-learning to Baird’s
+  counterexample and show empirically that its weights diverge.}
+
+  The code can be found at \url{https://github.com/hannagabor/SBRL/blob/master/11.3/q_learning_bairds.py}.
+
+  \begin{center}
+    \includegraphics[scale=0.7]{q_learning_bairds}
+  \end{center}
 
 \end{enumerate}
 \end{document}
